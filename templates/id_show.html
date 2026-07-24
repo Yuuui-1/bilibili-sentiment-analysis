@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bilibili可视化网站 - 用户ID词云</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
+  <style>
+    body {
+      background-color: #fff5f7;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .image-container img {
+      height: 80px;
+      margin: 0 auto;
+      display: block;
+    }
+    h1 {
+      margin: 10px 0;
+      font-size: 2.2em;
+    }
+    button1 {
+      background-color: #ff6b88;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 10px;
+    }
+    aside {
+      width: 200px;
+      background-color: white;
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100%;
+      padding-top: 180px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+    aside button {
+      display: block;
+      width: 80%;
+      margin: 10px auto;
+      padding: 10px;
+      background-color: #ff8fab;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.3s;
+    }
+    aside button:hover {
+      background-color: #ff6b88;
+      transform: translateX(5px);
+    }
+    main {
+      margin-left: 220px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .visualization-container {
+      flex: 1;
+      min-width: 600px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    iframe {
+      border: none;
+      border-radius: 10px;
+      width: 100%;
+      height: 500px;
+      background-color: white;
+    }
+    .analysis-container {
+      flex: 1;
+      min-width: 300px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    .analysis-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: url('{{ url_for('static',filename='bilibili.jpg')}}') no-repeat;
+      background-size: contain;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    h2 {
+      color: #ff6b88;
+      border-bottom: 2px solid #ffb3c6;
+      padding-bottom: 10px;
+      margin-top: 0;
+      position: relative;
+      z-index: 1;
+    }
+    p {
+      line-height: 1.8;
+      color: #555;
+      position: relative;
+      z-index: 1;
+    }
+    .highlight-box {
+      background-color: #fff0f3;
+      border-left: 4px solid #ff6b88;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .stat-item {
+      background-color: #fff5f7;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .stat-value {
+      font-size: 1.4em;
+      color: #ff6b88;
+      font-weight: bold;
+    }
+    .stat-label {
+      font-size: 0.9em;
+      color: #888;
+    }
+    .username-examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .username-example {
+      background-color: #ffecef;
+      padding: 8px 12px;
+      border-radius: 15px;
+      font-size: 0.9em;
+    }
+    .username-category {
+      font-weight: bold;
+      color: #ff6b88;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+<header>
+ <div class="image-container">
+
+ </div>
+    <h1>bilibili可视化网站</h1>
+    <button1 id="home">主页</button1>
+</header>
+<aside>
+    <button id="overview">用户性别总览</button>
+    <button id="age">点赞最高评论总览</button>
+    <button id="height">回复最高评论总览</button>
+    <button id="education">用户等级总览</button>
+    <button id="wordcloud">用户评论词云</button>
+    <button id="wordcloudid">用户id词云</button>
+ </aside>
+ <main>
+  <div class="visualization-container">
+    <iframe src="{{ url_for('wordcloudid') }}"></iframe>
+  </div>
+
+  <div class="analysis-container">
+    <h2>可视化结果分析：用户名词云图</h2>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-value">最高</div>
+        <div class="stat-label">清新风格</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">30%</div>
+        <div class="stat-label">英文名</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">12%</div>
+        <div class="stat-label">数字账号</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">匹配</div>
+        <div class="stat-label">内容调性</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      用户名呈现多元化特征，与赵朔"慢生活"的内容调性高度匹配，验证了内容定位与受众特征的契合度。
+    </div>
+
+    <div class="username-category">清新风格昵称：</div>
+    <div class="username-examples">
+      <span class="username-example">青柠</span>
+      <span class="username-example">塔罗</span>
+      <span class="username-example">微风</span>
+      <span class="username-example">星空</span>
+    </div>
+
+    <div class="username-category">英文名用户：</div>
+    <div class="username-examples">
+      <span class="username-example">Rrosy</span>
+      <span class="username-example">isshuang</span>
+      <span class="username-example">Lemon</span>
+      <span class="username-example">Sunny</span>
+    </div>
+
+    <div class="username-category">数字账号：</div>
+    <div class="username-examples">
+      <span class="username-example">112345678910</span>
+      <span class="username-example">33445566</span>
+    </div>
+
+    <p>用户名风格与女性用户为主的性别分布吻合，显示观众群体具有国际化特征。</p>
+  </div>
+ </main>
+<script src="{{ url_for('static',filename='script1.js') }}"></script>
+</body>
+</html>

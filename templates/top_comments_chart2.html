@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>回复数Top30评论</title>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
+    <style>
+        body {
+            background-color: #fafafa;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .chart-container {
+            margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            background: white;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="45493e86940f4c2580c169544fe128e8" class="chart-container" style="width:900px; height:500px;"></div>
+
+    <script>
+        // 初始化图表
+        var chart = echarts.init(
+            document.getElementById('45493e86940f4c2580c169544fe128e8'),
+            null,
+            {
+                renderer: 'canvas',
+                devicePixelRatio: 2
+            }
+        );
+
+        // 马卡龙色系配色
+        var macaronColors = [
+            '#FFB7C5',  // 樱花粉
+            '#A2D7D8',  // 薄荷蓝
+            '#FFDEB4',  // 奶油黄
+            '#D4A5A5',  // 玫瑰粉
+            '#B5C7E5'   // 淡紫蓝
+        ];
+
+        // 图表配置
+        var option = {
+            // 整体背景色
+            backgroundColor: '#fff',
+
+            // 标题样式
+            title: {
+                text: '回复数最高的评论 Top 30',
+                subtext: '从MongoDB读取数据并去重',
+                left: 'center',
+                top: 20,
+                textStyle: {
+                    color: '#FF8FAB',
+                    fontSize: 22,
+                    fontWeight: 'bold'
+                },
+                subtextStyle: {
+                    color: '#A2D7D8',
+                    fontSize: 14
+                }
+            },
+
+            // 颜色配置
+            color: macaronColors,
+
+            // 工具栏
+            toolbox: {
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+
+            // 数据缩放
+            dataZoom: [
+                {
+                    type: 'slider',
+                    show: true,
+                    start: 20,
+                    end: 80,
+                    handleSize: 8,
+                    handleStyle: {
+                        color: macaronColors[0]
+                    },
+                    fillerColor: 'rgba(162, 215, 216, 0.2)',
+                    borderColor: '#eee'
+                }
+            ],
+
+            // 图例
+            legend: {
+                data: ['回复数'],
+                bottom: 10,
+                textStyle: {
+                    color: '#666'
+                }
+            },
+
+            // X轴
+            xAxis: {
+                type: 'category',
+                data: [
+                    "现在是凌晨一点多...",
+                    "师父你有时候会误触吗...",
+                    "感谢您在抖音为罗帅宇发声",
+                    "师父，不知道你会不会...",
+                    "师父Gogogo...",
+                    "你们都完全走出来了吗...",
+                    "有人说偶遇照片/视频...",
+                    "师父，我今天喂的好多只...",
+                    "早上好，看我漂亮女儿！",
+                    "牛马看着你各种溜达...",
+                    "师父这几天竖大拇指...",
+                    "看到赵朔在一个景区喂猫...",
+                    "师父如果要去黄山的话...",
+                    "朔的人生到处是观众...",
+                    "今天都10号了...",
+                    "师父周末会在哪啊...",
+                    "师父，又收到了远方的...",
+                    "师父来成都三星堆博物馆...",
+                    "朔哥早上好啊...",
+                    "加倍远光灯来了...",
+                    "https://b23.tv/BV1mnCAYMEkX",
+                    "老实说我心态有点崩...",
+                    "朔朔你的action的...",
+                    "为啥破站的没更",
+                    "这么久还没更新...",
+                    "海上生明月...",
+                    "给师父充电！...",
+                    "为罗帅宇医生发声！...",
+                    "心结这个东西...",
+                    "早安小朔"
+                ],
+                axisLabel: {
+                    interval: 0,
+                    rotate: 30,
+                    color: '#666',
+                    fontSize: 10
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#eee'
+                    }
+                },
+                axisTick: {
+                    alignWithLabel: true
+                }
+            },
+
+            // Y轴
+            yAxis: {
+                type: 'value',
+                name: '回复数量',
+                nameTextStyle: {
+                    color: '#888'
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#eee'
+                    }
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#f5f5f5'
+                    }
+                }
+            },
+
+            // 系列数据
+            series: [
+                {
+                    name: '回复数',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: [25,17,13,5,5,3,3,3,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1],
+                    itemStyle: {
+                        color: function(params) {
+                            // 根据数值大小使用不同颜色
+                            if(params.value > 15) {
+                                return macaronColors[0]; // 高值用粉色
+                            } else if(params.value > 5) {
+                                return macaronColors[1]; // 中值用蓝色
+                            } else {
+                                return macaronColors[2]; // 低值用黄色
+                            }
+                        },
+                        borderRadius: [4, 4, 0, 0] // 柱子上部圆角
+                    },
+                    label: {
+                        show: true,
+                        position: 'top',
+                        color: '#666',
+                        fontSize: 10
+                    }
+                }
+            ],
+
+            // 提示框
+            tooltip: {
+                trigger: 'item',
+                backgroundColor: 'rgba(255,255,255,0.95)',
+                borderColor: '#eee',
+                borderWidth: 1,
+                padding: [10, 15],
+                textStyle: {
+                    color: '#666'
+                },
+                formatter: '{b}<br/>回复数: <span style="color:{color};font-weight:bold">{c}</span>'
+            },
+
+            // 动画
+            animation: true,
+            animationDuration: 1000,
+            animationEasing: 'cubicOut'
+        };
+
+        // 应用配置
+        chart.setOption(option);
+
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            chart.resize();
+        });
+    </script>
+</body>
+</html>

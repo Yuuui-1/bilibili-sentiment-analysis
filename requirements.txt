@@ -1,0 +1,6 @@
+flask
+pymongo
+requests
+jieba
+wordcloud
+pyecharts

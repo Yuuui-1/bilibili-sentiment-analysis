@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bilibili可视化网站 - 用户性别</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
+  <style>
+    body {
+      background-color: #fff5f7;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .image-container img {
+      height: 80px;
+      margin: 0 auto;
+      display: block;
+    }
+    h1 {
+      margin: 10px 0;
+      font-size: 2.2em;
+    }
+    button1 {
+      background-color: #ff6b88;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 10px;
+    }
+    aside {
+      width: 200px;
+      background-color: white;
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100%;
+      padding-top: 180px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+    aside button {
+      display: block;
+      width: 80%;
+      margin: 10px auto;
+      padding: 10px;
+      background-color: #ff8fab;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.3s;
+    }
+    aside button:hover {
+      background-color: #ff6b88;
+      transform: translateX(5px);
+    }
+    main {
+      margin-left: 220px;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .visualization-container {
+      flex: 1;
+      min-width: 600px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    iframe {
+      border: none;
+      border-radius: 10px;
+      width: 100%;
+      height: 500px;
+      background-color: white;
+    }
+    .analysis-container {
+      flex: 1;
+      min-width: 300px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    .analysis-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: url('{{ url_for('static',filename='bilibili.jpg')}}') no-repeat;
+      background-size: contain;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    h2 {
+      color: #ff6b88;
+      border-bottom: 2px solid #ffb3c6;
+      padding-bottom: 10px;
+      margin-top: 0;
+      position: relative;
+      z-index: 1;
+    }
+    p {
+      line-height: 1.8;
+      color: #555;
+      position: relative;
+      z-index: 1;
+    }
+    .highlight-box {
+      background-color: #fff0f3;
+      border-left: 4px solid #ff6b88;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .stat-item {
+      background-color: #fff5f7;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .stat-value {
+      font-size: 1.4em;
+      color: #ff6b88;
+      font-weight: bold;
+    }
+    .stat-label {
+      font-size: 0.9em;
+      color: #888;
+    }
+    .gender-comparison {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+    .gender-item {
+      text-align: center;
+      width: 30%;
+    }
+    .gender-icon {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    .female { color: #ff6b88; }
+    .male { color: #6b88ff; }
+    .secret { color: #888; }
+    .gender-bar {
+      height: 8px;
+      background-color: #eee;
+      border-radius: 4px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    .gender-fill {
+      height: 100%;
+      border-radius: 4px;
+    }
+    .female-fill { background-color: #ff6b88; width: 32%; }
+    .male-fill { background-color: #6b88ff; width: 10%; }
+    .secret-fill { background-color: #888; width: 58%; }
+  </style>
+</head>
+<body>
+<header>
+ <div class="image-container">
+
+ </div>
+    <h1>bilibili可视化网站</h1>
+    <button1 id="home">主页</button1>
+</header>
+<aside>
+    <button id="overview">用户性别总览</button>
+    <button id="age">点赞最高评论总览</button>
+    <button id="height">回复最高评论总览</button>
+    <button id="education">用户等级总览</button>
+    <button id="wordcloud">用户评论词云</button>
+    <button id="wordcloudid">用户id词云</button>
+ </aside>
+ <main>
+  <div class="visualization-container">
+    <iframe src="{{ url_for('gender_pie_chart') }}"></iframe>
+  </div>
+
+  <div class="analysis-container">
+    <h2>可视化结果分析：用户性别分布饼图</h2>
+
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-value">78人</div>
+        <div class="stat-label">保密性别</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">43人</div>
+        <div class="stat-label">女性用户</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">14人</div>
+        <div class="stat-label">男性用户</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">3倍</div>
+        <div class="stat-label">女多于男</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      女性用户数量是男性的3倍，与其治愈系内容风格高度相关，说明内容更受女性观众青睐。
+    </div>
+
+    <div class="gender-comparison">
+      <div class="gender-item">
+        <div class="gender-icon female">♀</div>
+        <div>女性用户</div>
+        <div>43人 (32%)</div>
+        <div class="gender-bar">
+          <div class="gender-fill female-fill"></div>
+        </div>
+      </div>
+      <div class="gender-item">
+        <div class="gender-icon male">♂</div>
+        <div>男性用户</div>
+        <div>14人 (10%)</div>
+        <div class="gender-bar">
+          <div class="gender-fill male-fill"></div>
+        </div>
+      </div>
+      <div class="gender-item">
+        <div class="gender-icon secret">?</div>
+        <div>保密性别</div>
+        <div>78人 (58%)</div>
+        <div class="gender-bar">
+          <div class="gender-fill secret-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <p>该饼图清晰展示了赵朔视频评论用户的性别构成特征。"保密"性别用户占比最高（78人），显著超过女性用户（43人）和男性用户（14人）。</p>
+
+    <p>这种分布可能反映两个现象：一是B站用户对隐私保护的意识较强，二是赵朔内容具有跨性别吸引力。</p>
+
+    <p>对比B站整体男女比例（约6:4），本视频女性用户占比更高，说明内容更受女性观众青睐。</p>
+  </div>
+ </main>
+<script src="{{ url_for('static',filename='script1.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+/* styles.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header img {
+    width: 155px;      /* 设置图片宽度为容器的100% */
+    height: 70px;     /* 设置图片高度为容器的100% */
+}
+
+
+aside {
+    background-color: #f0f0f0;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+}
+
+main {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #f0f0f0;
+    color: black;
+    cursor: pointer;
+    text-align: left;
+}
+
+button1 {
+    display: block;
+    width: 3%;
+    padding: 10px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#personal {
+    background-color: #e9ecef;
+    width: 500px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.profile img {
+    width: 100px;  /* 图片宽度 */
+    height: 100px; /* 图片高度 */
+    border-radius: 50%; /* 圆形图片 */
+    object-fit: cover; /* 保证图片内容被适当裁剪以填充元素的内容框 */
+}
+
+.info-list {
+    list-style: none; /* 移除列表前的点 */
+    margin-left: 20px; /* 列表和图片之间的间距 */
+    padding: 0;
+}
+
+.info-list li {
+    line-height: 1.5; /* 设置行间距 */
+}
+
+
+#content {
+    background-color: #ffffff;
+    padding: 10px;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}

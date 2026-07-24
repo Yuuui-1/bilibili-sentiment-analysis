@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
+    <style>
+        body {
+            background-color: #fafafa;
+        }
+        .chart-container {
+            margin: 20px auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="353eba35115c45a39b5c7600783d3c15" class="chart-container" style="width:900px; height:500px;"></div>
+    <script>
+        var chart_353eba35115c45a39b5c7600783d3c15 = echarts.init(
+            document.getElementById('353eba35115c45a39b5c7600783d3c15'), null, {
+                renderer: 'canvas',
+                devicePixelRatio: 2
+            });
+
+        // 马卡龙色系配色方案
+        var macaronColors = ['#FFB7C5', '#A2D7D8', '#FFDEB4', '#D4A5A5', '#B5C7E5'];
+
+        var option_353eba35115c45a39b5c7600783d3c15 = {
+            // 整体背景色
+            backgroundColor: '#fff',
+
+            // 颜色配置
+            color: macaronColors,
+
+            // 标题样式
+            title: {
+                text: '用户等级分布折线图',
+                subtext: '共有七个等级：0到6',
+                left: 'center',
+                textStyle: {
+                    color: '#FF8FAB',
+                    fontSize: 22,
+                    fontWeight: 'bold'
+                },
+                subtextStyle: {
+                    color: '#A2D7D8',
+                    fontSize: 14
+                }
+            },
+
+            // 图例设置
+            legend: {
+                data: ['用户数量'],
+                orient: 'horizontal',
+                bottom: 20,
+                textStyle: {
+                    color: '#888'
+                }
+            },
+
+            // 提示框设置
+            tooltip: {
+                trigger: 'axis',
+                backgroundColor: 'rgba(255,255,255,0.95)',
+                borderColor: '#eee',
+                borderWidth: 1,
+                padding: [10, 15],
+                textStyle: {
+                    color: '#666'
+                }
+            },
+
+            // X轴设置
+            xAxis: {
+                type: 'category',
+                data: ['0', '1', '2', '3', '4', '5', '6'],
+                axisLine: {
+                    lineStyle: {
+                        color: '#ddd'
+                    }
+                },
+                axisLabel: {
+                    color: '#666'
+                }
+            },
+
+            // Y轴设置
+            yAxis: {
+                type: 'value',
+                axisLine: {
+                    lineStyle: {
+                        color: '#ddd'
+                    }
+                },
+                axisLabel: {
+                    color: '#666'
+                },
+                splitLine: {
+                    lineStyle: {
+                        color: '#eee'
+                    }
+                }
+            },
+
+            // 系列数据
+            series: [{
+                name: '用户数量',
+                type: 'line',
+                smooth: true,
+                symbol: 'circle',
+                symbolSize: 8,
+                lineStyle: {
+                    width: 3,
+                    color: macaronColors[0]
+                },
+                itemStyle: {
+                    color: macaronColors[0],
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                areaStyle: {
+                    color: {
+                        type: 'linear',
+                        x: 0,
+                        y: 0,
+                        x2: 0,
+                        y2: 1,
+                        colorStops: [{
+                            offset: 0,
+                            color: 'rgba(255, 183, 197, 0.5)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(255, 183, 197, 0.1)'
+                        }]
+                    }
+                },
+                data: [
+                    ['0', 0],
+                    ['1', 0],
+                    ['2', 46],
+                    ['3', 22],
+                    ['4', 22],
+                    ['5', 25],
+                    ['6', 20]
+                ],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '最大值' }
+                    ],
+                    label: {
+                        color: '#fff',
+                        backgroundColor: macaronColors[0]
+                    }
+                }
+            }],
+
+            // 动画设置
+            animation: true,
+            animationDuration: 1000,
+            animationEasing: 'cubicOut'
+        };
+
+        // 应用配置
+        chart_353eba35115c45a39b5c7600783d3c15.setOption(option_353eba35115c45a39b5c7600783d3c15);
+
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            chart_353eba35115c45a39b5c7600783d3c15.resize();
+        });
+    </script>
+</body>
+</html>

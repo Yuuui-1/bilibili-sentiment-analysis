@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户性别分布饼图</title>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
+    <style>
+        body {
+            background-color: #fafafa;
+            font-family: 'Arial', sans-serif;
+        }
+        .chart-container {
+            margin: 20px auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="pie-chart" class="chart-container" style="width:900px; height:500px;"></div>
+
+    <script>
+        // 初始化图表（简化了ID命名）
+        var chart = echarts.init(
+            document.getElementById('pie-chart'),
+            null,  // 不使用主题，自定义配色
+            {
+                renderer: 'canvas',
+                devicePixelRatio: 2  // 高清显示
+            }
+        );
+
+        // 马卡龙色系配色方案
+        var macaronColors = [
+            '#FFB7C5',  // 樱花粉
+            '#A2D7D8',  // 薄荷蓝
+            '#FFDEB4',  // 奶油黄
+            '#D4A5A5',  // 玫瑰粉（备用）
+            '#B5C7E5'   // 淡紫蓝（备用）
+        ];
+
+        // 图表配置
+        var option = {
+            // 整体背景色
+            backgroundColor: '#fff',
+
+            // 标题样式（更可爱的风格）
+            title: {
+                text: '用户性别分布',
+                left: 'center',
+                top: 20,
+                textStyle: {
+                    color: '#FF8FAB',
+                    fontSize: 22,
+                    fontWeight: 'bold'
+                },
+                subtextStyle: {
+                    color: '#A2D7D8',
+                    fontSize: 14
+                }
+            },
+
+            // 图例设置
+            legend: {
+                orient: 'horizontal',
+                bottom: 20,
+                data: ['女', '保密', '男'],
+                textStyle: {
+                    color: '#888',
+                    fontSize: 14
+                },
+                itemStyle: {
+                    borderWidth: 0
+                },
+                itemGap: 20
+            },
+
+            // 系列数据
+            series: [{
+                type: 'pie',
+                name: '性别分布',
+                radius: ['30%', '70%'],
+                center: ['50%', '50%'],
+                color: macaronColors,
+
+                // 数据项
+                data: [
+                    {
+                        name: '女',
+                        value: 43,
+                        itemStyle: { color: macaronColors[0] }  // 粉色
+                    },
+                    {
+                        name: '保密',
+                        value: 78,
+                        itemStyle: { color: macaronColors[1] }  // 蓝色
+                    },
+                    {
+                        name: '男',
+                        value: 14,
+                        itemStyle: { color: macaronColors[2] }  // 黄色
+                    }
+                ],
+
+                // 标签样式
+                label: {
+                    show: true,
+                    formatter: '{b}: {c} ({d}%)',
+                    fontSize: 13,
+                    color: '#666',
+                    fontWeight: 'normal'
+                },
+
+                // 标签线样式
+                labelLine: {
+                    show: true,
+                    length: 10,
+                    length2: 15,
+                    lineStyle: {
+                        color: '#ddd',
+                        width: 1
+                    }
+                },
+
+                // 饼图样式
+                itemStyle: {
+                    borderRadius: 6,  // 圆角边缘
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+
+                // 高亮样式
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    label: {
+                        show: true,
+                        fontWeight: 'bold'
+                    }
+                }
+            }],
+
+            // 提示框设置
+            tooltip: {
+                trigger: 'item',
+                backgroundColor: 'rgba(255,255,255,0.95)',
+                borderColor: '#eee',
+                borderWidth: 1,
+                padding: [10, 15],
+                textStyle: {
+                    color: '#666'
+                },
+                formatter: '{a}<br/>{b}: <span style="color:{color};font-weight:bold">{c}</span> ({d}%)'
+            },
+
+            // 动画设置
+            animation: true,
+            animationDuration: 1000,
+            animationEasing: 'cubicOut'
+        };
+
+        // 应用配置
+        chart.setOption(option);
+
+        // 响应式调整
+        window.addEventListener('resize', function() {
+            chart.resize();
+        });
+    </script>
+</body>
+</html>
