@@ -1,82 +1,51 @@
 from pymongo import MongoClient
-from collections import Counter
 import jieba
-from wordcloud import WordCloud
-from pyecharts import options as opts
 from pyecharts.charts import WordCloud
-from nltk.corpus import stopwords
-import nltk
+from pyecharts import options as opts
+from pyecharts.globals import ThemeType
+from config import MONGODB_URL, TEMPLATES_DIR
 
-nltk.download('stopwords')
-
-
-def get_shortnote_data():
-    try:
-        print("=== 开始连接MongoDB ===")
-        client = MongoClient('mongodb://DBadmin:123456789@localhost:27017')
-        db = client['bilibili']
-        collection = db['new']
-        print("✅ MongoDB连接成功")
-
-        # 从 MongoDB 中读取数据
-        data = collection.find({}, {"_id": 0, "user_name": 1})
-        print(f"✅ 成功读取 {collection.count_documents({})} 条数据")
-
-        # 提取 shortnote 数据
-        shortnotes = [d["user_name"] for d in data]
-        return shortnotes
-
-    except Exception as e:
-        print(f"❌ 数据库操作出错: {e}")
-        return []
+CHINESE_STOPWORDS = set([
+    "的", "了", "在", "是", "我", "有", "和", "就", "不", "人", "都", "一",
+    "一个", "上", "也", "很", "到", "说", "要", "去", "你", "会", "着",
+    "没有", "看", "好", "自己", "这", "他", "她", "它", "们", "那", "些",
+])
 
 
-def generate_word_cloud(shortnotes):
-    try:
-        # 合并所有 shortnote 文本
-        text = ' '.join(shortnotes)
-
-        # 使用 jieba 分词
-        words = jieba.lcut(text)
-
-        # 过滤掉单个字和停用词
-        filtered_words = [word for word in words if len(word) > 1 and word not in stopwords.words('english')]
-
-        # 统计词频
-        word_counts = Counter(filtered_words)
-
-        # 生成词云图
-        wordcloud = (
-            WordCloud()
-            .add(series_name="", data_pair=word_counts.items(), word_size_range=[20, 100])
-            .set_global_opts(
-                title_opts=opts.TitleOpts(title="用户名词云图"),
-                tooltip_opts=opts.TooltipOpts(is_show=True),
-            )
-        )
-
-        # 保存为 HTML 文件
-        output_path = "D:/pycharm_xiangmu3/templates/wordcloudid.html"
-        wordcloud.render(output_path)
-        print(f"✅ 词云图已生成: {output_path}")
-
-    except Exception as e:
-        print(f"❌ 生成词云图出错: {e}")
+def get_username_data():
+    client = MongoClient(MONGODB_URL)
+    db = client['bilibili']
+    collection = db['new']
+    cursor = collection.find({}, {"user_name": 1, "_id": 0})
+    texts = [doc['user_name'] for doc in cursor if 'user_name' in doc]
+    client.close()
+    return texts
 
 
-def main():
-    print("=== 脚本开始执行 ===")
-    # 获取 shortnote 数据
-    shortnotes = get_shortnote_data()
+def generate_username_wordcloud():
+    texts = get_username_data()
+    if not texts:
+        print("No username data found")
+        return
 
-    if shortnotes:
-        # 生成词云图并保存为 HTML
-        generate_word_cloud(shortnotes)
-    else:
-        print("❌ 未获取到有效数据，终止执行")
+    all_text = " ".join(texts)
+    words = jieba.lcut(all_text)
+    filtered = [w.strip() for w in words if len(w.strip()) > 1 and w.strip() not in CHINESE_STOPWORDS]
 
-    print("=== 脚本执行结束 ===")
+    from collections import Counter
+    word_counts = Counter(filtered).most_common(100)
+
+    wc = (
+        WordCloud(init_opts=opts.InitOpts(theme=ThemeType.LIGHT))
+        .add("", word_counts, word_size_range=[12, 60], shape="circle")
+        .set_global_opts(title_opts=opts.TitleOpts(title="用户名词云"))
+    )
+
+    import os
+    output_path = os.path.join(TEMPLATES_DIR, "wordcloudid.html")
+    wc.render(output_path)
+    print(f"Username word cloud saved: {output_path}")
 
 
 if __name__ == "__main__":
-    main()
+    generate_username_wordcloud()

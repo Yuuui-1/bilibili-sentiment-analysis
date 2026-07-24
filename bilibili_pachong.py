@@ -1,8 +1,10 @@
 import requests
 import pymongo
 import time
+import os
 from pymongo import MongoClient
 from datetime import datetime
+from config import MONGODB_URL
 
 
 class BCommentParse(object):
@@ -10,7 +12,7 @@ class BCommentParse(object):
         self.headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36',
             'Referer': 'https://www.bilibili.com/',
-            'Cookie': 'your_bilibili_cookie_here'  # 请替换为你的 B站 Cookie
+            'Cookie': os.getenv('BILIBILI_COOKIE', 'your_bilibili_cookie_here'),
 
         }
         self.base_url = base_url
@@ -37,7 +39,7 @@ class BCommentParse(object):
 
     def set_page(self):
         try:
-            self.client = MongoClient('mongodb://DBadmin:123456789@localhost:27017/')
+            self.client = MongoClient(MONGODB_URL)
             self.collection = self.client["bilibili"]["new"]  # 存储到new集合
             # 在set_page方法中添加（只需执行一次）
             self.collection.create_index([("user_id", 1), ("comment", 1)], unique=True)
