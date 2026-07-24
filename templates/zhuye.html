@@ -106,6 +106,13 @@
         <p class="intro">
             已分析 <strong>{{ total }}</strong> 条评论，整体情感得分 <strong style="color:{{ 'var(--pink-dark)' if avg_sentiment > 50 else '#c62828' }};">{{ avg_sentiment }}%</strong>，
             正面评论占比 <strong>{{ pos_ratio }}%</strong>。</p>
+
+        {% if insights %}
+        <div style="background:linear-gradient(135deg,#fef2f4,#fff5f5);border-radius:12px;padding:20px;margin-bottom:20px;border-left:4px solid var(--pink);">
+            <h3 style="color:var(--pink-dark);font-size:1rem;margin:0 0 8px;">AI 数据洞察</h3>
+            <p style="font-size:.9rem;color:#555;line-height:1.8;margin:0;">{{ insights.summary }}</p>
+        </div>
+        {% endif %}
         <div class="features">
             <div class="feature-card">
                 <h3>评论词云</h3><p>高频关键词可视化</p>
