@@ -100,14 +100,18 @@ def chart_page(page):
     if os.path.exists(chart_path):
         with open(chart_path, 'r', encoding='utf-8') as f:
             raw = f.read()
-        # 提取 body 内容（pyecharts 输出含完整 HTML）
-        if '</head>' in raw:
-            raw = raw.split('</head>')[1] if '</head>' in raw else raw
-        if '<body>' in raw:
-            raw = raw.split('<body>')[1]
-        if '</body>' in raw:
-            raw = raw.split('</body>')[0]
-        chart_html = raw
+        # 保留 head 中的 script（加载 echarts.js）和 body 内容
+        head_scripts = ""
+        if '<head>' in raw and '</head>' in raw:
+            head = raw.split('<head>')[1].split('</head>')[0]
+            import re
+            head_scripts = '\n'.join(re.findall(r'<script[^>]*>.*?</script>', head, re.DOTALL))
+        body = raw
+        if '<body>' in body:
+            body = body.split('<body>')[1]
+        if '</body>' in body:
+            body = body.split('</body>')[0]
+        chart_html = head_scripts + '\n' + body
 
     # 数据分析
     col, client = get_db()
