@@ -1,94 +1,128 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B站舆情分析看板</title>
+    <title>B站可视化分析平台</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f5f5f7; color: #1d1d1f; }
-        .container { max-width: 960px; margin: 0 auto; padding: 24px 20px; }
-        h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
-        .subtitle { color: #86868b; font-size: 14px; margin-bottom: 32px; }
+        :root {
+            --bilibili-pink: #FB7299;
+            --bilibili-pink-light: #FF9DB5;
+            --bilibili-pink-dark: #E05A7B;
+            --bilibili-blue: #23ADE5;
+            --text-dark: #333;
+            --text-light: #FFF;
+            --bg-light: #FFF9FA;
+            --shadow: 0 4px 8px rgba(251, 114, 153, 0.2);
+        }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0; padding: 0;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+        header {
+            background: linear-gradient(135deg, var(--bilibili-pink), var(--bilibili-pink-dark));
+            color: var(--text-light);
+            padding: 1.2rem 2rem;
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        .header-container {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .header-container h1 { font-size: 22px; margin: 0; }
+        .header-container span { font-size: 13px; opacity: .85; }
 
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 32px; }
-        .stat-card { background: #fff; border-radius: 14px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
-        .stat-value { font-size: 32px; font-weight: 700; }
-        .stat-label { font-size: 13px; color: #86868b; margin-top: 4px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
 
-        .sentiment-bars { margin-bottom: 32px; }
-        .bar-row { display: flex; align-items: center; margin-bottom: 10px; gap: 12px; }
-        .bar-label { width: 48px; font-size: 13px; color: #86868b; text-align: right; }
-        .bar-track { flex: 1; height: 8px; background: #e8e8ed; border-radius: 4px; overflow: hidden; }
-        .bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
-        .bar-pct { width: 48px; font-size: 13px; font-weight: 600; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-bottom: 28px; }
+        .stat-card {
+            background: #fff; border-radius: 16px; padding: 22px 18px;
+            box-shadow: 0 2px 12px rgba(251,114,153,.08);
+            text-align: center;
+        }
+        .stat-value { font-size: 30px; font-weight: 700; }
+        .stat-label { font-size: 12px; color: #999; margin-top: 6px; }
 
-        .section-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
-        .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 32px; }
-        .link-card { background: #fff; border-radius: 12px; padding: 16px; text-decoration: none; color: #1d1d1f; box-shadow: 0 1px 3px rgba(0,0,0,.06); transition: transform .15s; }
-        .link-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
-        .link-card h3 { font-size: 15px; margin-bottom: 4px; }
-        .link-card p { font-size: 12px; color: #86868b; }
+        .sentiment-bars { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(251,114,153,.08); margin-bottom: 28px; }
+        .bar-row { display: flex; align-items: center; margin-bottom: 14px; gap: 14px; }
+        .bar-label { width: 52px; font-size: 13px; font-weight: 600; text-align: right; }
+        .bar-track { flex: 1; height: 10px; background: #f0f0f0; border-radius: 5px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 5px; transition: width .8s ease; }
+        .bar-pct { width: 52px; font-size: 14px; font-weight: 700; }
 
-        .comment-list { background: #fff; border-radius: 14px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,.06); margin-bottom: 20px; }
-        .comment-item { padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 14px; color: var(--bilibili-pink-dark); }
+        .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 28px; }
+        .link-card {
+            background: #fff; border-radius: 14px; padding: 18px; text-decoration: none; color: var(--text-dark);
+            box-shadow: 0 2px 10px rgba(251,114,153,.06); transition: all .2s;
+            border: 1px solid transparent;
+        }
+        .link-card:hover { transform: translateY(-3px); border-color: var(--bilibili-pink-light); box-shadow: 0 6px 20px rgba(251,114,153,.15); }
+        .link-card h3 { font-size: 15px; margin-bottom: 6px; }
+        .link-card p { font-size: 12px; color: #999; margin: 0; }
+
+        .comment-list { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(251,114,153,.08); margin-bottom: 20px; }
+        .comment-item { padding: 14px 0; border-bottom: 1px solid #fef2f4; }
         .comment-item:last-child { border-bottom: none; }
-        .comment-text { font-size: 14px; line-height: 1.6; }
-        .comment-meta { font-size: 12px; color: #86868b; margin-top: 4px; }
-        .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+        .comment-text { font-size: 14px; line-height: 1.7; }
+        .comment-meta { font-size: 12px; color: #aaa; margin-top: 6px; }
+        .tag { display: inline-block; padding: 3px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; }
         .tag-positive { background: #e8f5e9; color: #2e7d32; }
         .tag-negative { background: #ffebee; color: #c62828; }
+
+        footer { text-align: center; padding: 30px; color: #ccc; font-size: 12px; }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>B站评论舆情分析</h1>
-    <p class="subtitle">{{ total }} 条评论 · 基于 SnowNLP 中文情感分析</p>
+<header>
+    <div class="header-container">
+        <h1>B站数据分析看板</h1>
+        <span>{{ total }} 条评论 · SnowNLP 情感分析</span>
+    </div>
+</header>
 
+<div class="container">
     <!-- 统计卡片 -->
     <div class="stats">
         <div class="stat-card">
-            <div class="stat-value" id="total-comments">{{ total }}</div>
-            <div class="stat-label">评论总数</div>
+            <div class="stat-value">{{ total }}</div><div class="stat-label">评论总数</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value" style="color: #2e7d32;">{{ pos }}</div>
-            <div class="stat-label">正面评论</div>
+            <div class="stat-value" style="color:#2e7d32;">{{ pos }}</div><div class="stat-label">正面评论</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value" style="color: #f57c00;">{{ neu }}</div>
-            <div class="stat-label">中性评论</div>
+            <div class="stat-value" style="color:#f57c00;">{{ neu }}</div><div class="stat-label">中性评论</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value" style="color: #c62828;">{{ neg }}</div>
-            <div class="stat-label">负面评论</div>
+            <div class="stat-value" style="color:#c62828;">{{ neg }}</div><div class="stat-label">负面评论</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">{{ male }}</div>
-            <div class="stat-label">男性用户</div>
+            <div class="stat-value">{{ male }}</div><div class="stat-label">男性用户</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">{{ female }}</div>
-            <div class="stat-label">女性用户</div>
+            <div class="stat-value">{{ female }}</div><div class="stat-label">女性用户</div>
         </div>
     </div>
 
-    <!-- 情感分布条形图 -->
+    <!-- 情感分布 -->
     <div class="sentiment-bars">
-        <div class="section-title">情感分布</div>
+        <div class="section-title">情感分析分布</div>
         <div class="bar-row">
-            <span class="bar-label">正面</span>
-            <div class="bar-track"><div class="bar-fill" style="width: {{ (pos/total*100)|int }}%; background: #2e7d32;"></div></div>
+            <span class="bar-label" style="color:#2e7d32;">正面</span>
+            <div class="bar-track"><div class="bar-fill" style="width:{{ (pos/total*100)|int }}%;background:#2e7d32;"></div></div>
             <span class="bar-pct">{{ (pos/total*100)|int }}%</span>
         </div>
         <div class="bar-row">
-            <span class="bar-label">中性</span>
-            <div class="bar-track"><div class="bar-fill" style="width: {{ (neu/total*100)|int }}%; background: #f57c00;"></div></div>
+            <span class="bar-label" style="color:#f57c00;">中性</span>
+            <div class="bar-track"><div class="bar-fill" style="width:{{ (neu/total*100)|int }}%;background:#f57c00;"></div></div>
             <span class="bar-pct">{{ (neu/total*100)|int }}%</span>
         </div>
         <div class="bar-row">
-            <span class="bar-label">负面</span>
-            <div class="bar-track"><div class="bar-fill" style="width: {{ (neg/total*100)|int }}%; background: #c62828;"></div></div>
+            <span class="bar-label" style="color:#c62828;">负面</span>
+            <div class="bar-track"><div class="bar-fill" style="width:{{ (neg/total*100)|int }}%;background:#c62828;"></div></div>
             <span class="bar-pct">{{ (neg/total*100)|int }}%</span>
         </div>
     </div>
@@ -97,28 +131,28 @@
     <div class="section-title">可视化图表</div>
     <div class="links">
         <a class="link-card" href="/wordcloud">
-            <h3>评论词云</h3><p>高频关键词可视化</p>
+            <h3>📝 评论词云</h3><p>高频关键词可视化</p>
         </a>
         <a class="link-card" href="/wordcloudid">
-            <h3>用户名词云</h3><p>用户命名特征</p>
+            <h3>👤 用户名词云</h3><p>用户命名特征分析</p>
         </a>
         <a class="link-card" href="/gender_pie_chart">
-            <h3>性别分布</h3><p>饼图展示</p>
+            <h3>👫 性别分布</h3><p>饼图展示</p>
         </a>
         <a class="link-card" href="/user_level_line_chart">
-            <h3>用户等级</h3><p>等级分布折线图</p>
+            <h3>📈 用户等级</h3><p>等级分布折线图</p>
         </a>
         <a class="link-card" href="/top_comments_chart">
-            <h3>热评点赞 Top</h3><p>柱状图排行</p>
+            <h3>👍 点赞排行</h3><p>热门评论柱状图</p>
         </a>
         <a class="link-card" href="/top_comments_chart2">
-            <h3>热评回复 Top</h3><p>柱状图排行</p>
+            <h3>💬 回复排行</h3><p>回复数柱状图</p>
         </a>
     </div>
 
-    <!-- 高赞正面评论 -->
+    <!-- 正面热评 -->
     <div class="comment-list">
-        <div class="section-title" style="color: #2e7d32;">👍 正面热评</div>
+        <div class="section-title" style="color:#2e7d32;">👍 正面热评</div>
         {% for c in positive_samples %}
         <div class="comment-item">
             <div class="comment-text">{{ c.comment }}</div>
@@ -132,7 +166,7 @@
 
     <!-- 负面评论 -->
     <div class="comment-list">
-        <div class="section-title" style="color: #c62828;">👎 负面评论</div>
+        <div class="section-title" style="color:#c62828;">👎 负面评论</div>
         {% for c in negative_samples %}
         <div class="comment-item">
             <div class="comment-text">{{ c.comment }}</div>
@@ -144,5 +178,7 @@
         {% endfor %}
     </div>
 </div>
+
+<footer>B站舆情分析平台 · 数据来源：B站 API · SnowNLP 中文情感分析</footer>
 </body>
 </html>

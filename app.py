@@ -21,8 +21,8 @@ def index():
     neg = col.count_documents({"sentiment_label": "负面"})
 
     # Gender stats
-    male = col.count_documents({"user_sex": 1})
-    female = col.count_documents({"user_sex": 2})
+    male = col.count_documents({"user_sex": "男"})
+    female = col.count_documents({"user_sex": "女"})
 
     # Sentiment-detail samples
     positive_samples = list(col.find(
