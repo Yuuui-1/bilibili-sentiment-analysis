@@ -2,174 +2,166 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>用户性别分布饼图</title>
-    <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
-    <style>
-        body {
-            background-color: #fafafa;
-            font-family: 'Arial', sans-serif;
-        }
-        .chart-container {
-            margin: 20px auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border-radius: 8px;
-            background: white;
-        }
-    </style>
+    <title>Awesome-pyecharts</title>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
+
+    
 </head>
-<body>
-    <div id="pie-chart" class="chart-container" style="width:900px; height:500px;"></div>
-
+<body >
+    <div id="c9754ce02df74b609723a5f16aceb88e" class="chart-container" style="width:900px; height:500px; "></div>
     <script>
-        // 初始化图表（简化了ID命名）
-        var chart = echarts.init(
-            document.getElementById('pie-chart'),
-            null,  // 不使用主题，自定义配色
-            {
-                renderer: 'canvas',
-                devicePixelRatio: 2  // 高清显示
+        var chart_c9754ce02df74b609723a5f16aceb88e = echarts.init(
+            document.getElementById('c9754ce02df74b609723a5f16aceb88e'), 'light', {renderer: 'canvas'});
+        var option_c9754ce02df74b609723a5f16aceb88e = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "pie",
+            "name": "\u6027\u522b",
+            "colorBy": "data",
+            "legendHoverLink": true,
+            "selectedMode": false,
+            "selectedOffset": 10,
+            "clockwise": true,
+            "startAngle": 90,
+            "minAngle": 0,
+            "minShowLabelAngle": 0,
+            "avoidLabelOverlap": true,
+            "stillShowZeroSum": true,
+            "percentPrecision": 2,
+            "showEmptyCircle": true,
+            "emptyCircleStyle": {
+                "color": "lightgray",
+                "borderColor": "#000",
+                "borderWidth": 0,
+                "borderType": "solid",
+                "borderDashOffset": 0,
+                "borderCap": "butt",
+                "borderJoin": "bevel",
+                "borderMiterLimit": 10,
+                "opacity": 1
+            },
+            "data": [
+                {
+                    "name": "\u5973",
+                    "value": 80
+                },
+                {
+                    "name": "\u4fdd\u5bc6",
+                    "value": 173
+                },
+                {
+                    "name": "\u7537",
+                    "value": 22
+                }
+            ],
+            "radius": [
+                "0%",
+                "75%"
+            ],
+            "center": [
+                "50%",
+                "50%"
+            ],
+            "label": {
+                "show": true,
+                "margin": 8,
+                "formatter": "{b}: {c}",
+                "valueAnimation": false
+            },
+            "labelLine": {
+                "show": true,
+                "showAbove": false,
+                "length": 15,
+                "length2": 15,
+                "smooth": false,
+                "minTurnAngle": 90,
+                "maxSurfaceAngle": 90
+            },
+            "rippleEffect": {
+                "show": true,
+                "brushType": "stroke",
+                "scale": 2.5,
+                "period": 4
             }
-        );
-
-        // 马卡龙色系配色方案
-        var macaronColors = [
-            '#FFB7C5',  // 樱花粉
-            '#A2D7D8',  // 薄荷蓝
-            '#FFDEB4',  // 奶油黄
-            '#D4A5A5',  // 玫瑰粉（备用）
-            '#B5C7E5'   // 淡紫蓝（备用）
-        ];
-
-        // 图表配置
-        var option = {
-            // 整体背景色
-            backgroundColor: '#fff',
-
-            // 标题样式（更可爱的风格）
-            title: {
-                text: '用户性别分布',
-                left: 'center',
-                top: 20,
-                textStyle: {
-                    color: '#FF8FAB',
-                    fontSize: 22,
-                    fontWeight: 'bold'
-                },
-                subtextStyle: {
-                    color: '#A2D7D8',
-                    fontSize: 14
-                }
-            },
-
-            // 图例设置
-            legend: {
-                orient: 'horizontal',
-                bottom: 20,
-                data: ['女', '保密', '男'],
-                textStyle: {
-                    color: '#888',
-                    fontSize: 14
-                },
-                itemStyle: {
-                    borderWidth: 0
-                },
-                itemGap: 20
-            },
-
-            // 系列数据
-            series: [{
-                type: 'pie',
-                name: '性别分布',
-                radius: ['30%', '70%'],
-                center: ['50%', '50%'],
-                color: macaronColors,
-
-                // 数据项
-                data: [
-                    {
-                        name: '女',
-                        value: 43,
-                        itemStyle: { color: macaronColors[0] }  // 粉色
-                    },
-                    {
-                        name: '保密',
-                        value: 78,
-                        itemStyle: { color: macaronColors[1] }  // 蓝色
-                    },
-                    {
-                        name: '男',
-                        value: 14,
-                        itemStyle: { color: macaronColors[2] }  // 黄色
-                    }
-                ],
-
-                // 标签样式
-                label: {
-                    show: true,
-                    formatter: '{b}: {c} ({d}%)',
-                    fontSize: 13,
-                    color: '#666',
-                    fontWeight: 'normal'
-                },
-
-                // 标签线样式
-                labelLine: {
-                    show: true,
-                    length: 10,
-                    length2: 15,
-                    lineStyle: {
-                        color: '#ddd',
-                        width: 1
-                    }
-                },
-
-                // 饼图样式
-                itemStyle: {
-                    borderRadius: 6,  // 圆角边缘
-                    borderColor: '#fff',
-                    borderWidth: 2
-                },
-
-                // 高亮样式
-                emphasis: {
-                    itemStyle: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.1)'
-                    },
-                    label: {
-                        show: true,
-                        fontWeight: 'bold'
-                    }
-                }
-            }],
-
-            // 提示框设置
-            tooltip: {
-                trigger: 'item',
-                backgroundColor: 'rgba(255,255,255,0.95)',
-                borderColor: '#eee',
-                borderWidth: 1,
-                padding: [10, 15],
-                textStyle: {
-                    color: '#666'
-                },
-                formatter: '{a}<br/>{b}: <span style="color:{color};font-weight:bold">{c}</span> ({d}%)'
-            },
-
-            // 动画设置
-            animation: true,
-            animationDuration: 1000,
-            animationEasing: 'cubicOut'
-        };
-
-        // 应用配置
-        chart.setOption(option);
-
-        // 响应式调整
-        window.addEventListener('resize', function() {
-            chart.resize();
-        });
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "\u5973",
+                "\u4fdd\u5bc6",
+                "\u7537"
+            ],
+            "selected": {},
+            "show": true,
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "textStyle": {
+            "fontSize": 14
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "title": [
+        {
+            "show": true,
+            "text": "\u7528\u6237\u6027\u522b\u5206\u5e03",
+            "target": "blank",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false
+        }
+    ]
+};
+        chart_c9754ce02df74b609723a5f16aceb88e.setOption(option_c9754ce02df74b609723a5f16aceb88e);
     </script>
 </body>
 </html>

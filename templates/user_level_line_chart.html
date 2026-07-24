@@ -3,173 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <title>Awesome-pyecharts</title>
-    <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
-    <style>
-        body {
-            background-color: #fafafa;
-        }
-        .chart-container {
-            margin: 20px auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border-radius: 8px;
-            background: white;
-        }
-    </style>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
+
+    
 </head>
-<body>
-    <div id="353eba35115c45a39b5c7600783d3c15" class="chart-container" style="width:900px; height:500px;"></div>
+<body >
+    <div id="9f9179a34d8541218e840944d6f4e93f" class="chart-container" style="width:900px; height:500px; "></div>
     <script>
-        var chart_353eba35115c45a39b5c7600783d3c15 = echarts.init(
-            document.getElementById('353eba35115c45a39b5c7600783d3c15'), null, {
-                renderer: 'canvas',
-                devicePixelRatio: 2
-            });
-
-        // 马卡龙色系配色方案
-        var macaronColors = ['#FFB7C5', '#A2D7D8', '#FFDEB4', '#D4A5A5', '#B5C7E5'];
-
-        var option_353eba35115c45a39b5c7600783d3c15 = {
-            // 整体背景色
-            backgroundColor: '#fff',
-
-            // 颜色配置
-            color: macaronColors,
-
-            // 标题样式
-            title: {
-                text: '用户等级分布折线图',
-                subtext: '共有七个等级：0到6',
-                left: 'center',
-                textStyle: {
-                    color: '#FF8FAB',
-                    fontSize: 22,
-                    fontWeight: 'bold'
-                },
-                subtextStyle: {
-                    color: '#A2D7D8',
-                    fontSize: 14
-                }
-            },
-
-            // 图例设置
-            legend: {
-                data: ['用户数量'],
-                orient: 'horizontal',
-                bottom: 20,
-                textStyle: {
-                    color: '#888'
-                }
-            },
-
-            // 提示框设置
-            tooltip: {
-                trigger: 'axis',
-                backgroundColor: 'rgba(255,255,255,0.95)',
-                borderColor: '#eee',
-                borderWidth: 1,
-                padding: [10, 15],
-                textStyle: {
-                    color: '#666'
-                }
-            },
-
-            // X轴设置
-            xAxis: {
-                type: 'category',
-                data: ['0', '1', '2', '3', '4', '5', '6'],
-                axisLine: {
-                    lineStyle: {
-                        color: '#ddd'
-                    }
-                },
-                axisLabel: {
-                    color: '#666'
-                }
-            },
-
-            // Y轴设置
-            yAxis: {
-                type: 'value',
-                axisLine: {
-                    lineStyle: {
-                        color: '#ddd'
-                    }
-                },
-                axisLabel: {
-                    color: '#666'
-                },
-                splitLine: {
-                    lineStyle: {
-                        color: '#eee'
-                    }
-                }
-            },
-
-            // 系列数据
-            series: [{
-                name: '用户数量',
-                type: 'line',
-                smooth: true,
-                symbol: 'circle',
-                symbolSize: 8,
-                lineStyle: {
-                    width: 3,
-                    color: macaronColors[0]
-                },
-                itemStyle: {
-                    color: macaronColors[0],
-                    borderColor: '#fff',
-                    borderWidth: 2
-                },
-                areaStyle: {
-                    color: {
-                        type: 'linear',
-                        x: 0,
-                        y: 0,
-                        x2: 0,
-                        y2: 1,
-                        colorStops: [{
-                            offset: 0,
-                            color: 'rgba(255, 183, 197, 0.5)'
-                        }, {
-                            offset: 1,
-                            color: 'rgba(255, 183, 197, 0.1)'
-                        }]
-                    }
-                },
-                data: [
-                    ['0', 0],
-                    ['1', 0],
-                    ['2', 46],
-                    ['3', 22],
-                    ['4', 22],
-                    ['5', 25],
-                    ['6', 20]
+        var chart_9f9179a34d8541218e840944d6f4e93f = echarts.init(
+            document.getElementById('9f9179a34d8541218e840944d6f4e93f'), 'light', {renderer: 'canvas'});
+        var option_9f9179a34d8541218e840944d6f4e93f = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "line",
+            "name": "\u7528\u6237\u6570",
+            "connectNulls": false,
+            "xAxisIndex": 0,
+            "symbolSize": 4,
+            "showSymbol": true,
+            "smooth": true,
+            "clip": true,
+            "step": false,
+            "stackStrategy": "samesign",
+            "data": [
+                [
+                    "2",
+                    77
                 ],
-                markPoint: {
-                    data: [
-                        { type: 'max', name: '最大值' }
-                    ],
-                    label: {
-                        color: '#fff',
-                        backgroundColor: macaronColors[0]
-                    }
+                [
+                    "3",
+                    43
+                ],
+                [
+                    "4",
+                    50
+                ],
+                [
+                    "5",
+                    60
+                ],
+                [
+                    "6",
+                    45
+                ]
+            ],
+            "hoverAnimation": true,
+            "label": {
+                "show": true,
+                "margin": 8,
+                "valueAnimation": false
+            },
+            "logBase": 10,
+            "seriesLayoutBy": "column",
+            "lineStyle": {
+                "show": true,
+                "width": 1,
+                "opacity": 1,
+                "curveness": 0,
+                "type": "solid"
+            },
+            "areaStyle": {
+                "opacity": 0
+            },
+            "zlevel": 0,
+            "z": 0
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "\u7528\u6237\u6570"
+            ],
+            "selected": {},
+            "show": true,
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "textStyle": {
+            "fontSize": 14
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "xAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "gridIndex": 0,
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": true,
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
                 }
-            }],
-
-            // 动画设置
-            animation: true,
-            animationDuration: 1000,
-            animationEasing: 'cubicOut'
-        };
-
-        // 应用配置
-        chart_353eba35115c45a39b5c7600783d3c15.setOption(option_353eba35115c45a39b5c7600783d3c15);
-
-        // 响应式调整
-        window.addEventListener('resize', function() {
-            chart_353eba35115c45a39b5c7600783d3c15.resize();
-        });
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0,
+            "data": [
+                "2",
+                "3",
+                "4",
+                "5",
+                "6"
+            ]
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "gridIndex": 0,
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": true,
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0
+        }
+    ],
+    "title": [
+        {
+            "show": true,
+            "text": "\u7528\u6237\u7b49\u7ea7\u5206\u5e03",
+            "target": "blank",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false
+        }
+    ]
+};
+        chart_9f9179a34d8541218e840944d6f4e93f.setOption(option_9f9179a34d8541218e840944d6f4e93f);
     </script>
 </body>
 </html>

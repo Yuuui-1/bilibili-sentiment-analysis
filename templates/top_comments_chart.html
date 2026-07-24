@@ -3,19 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <title>Awesome-pyecharts</title>
-    <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
+                <script type="text/javascript" src="https://assets.pyecharts.org/assets/v5/echarts.min.js"></script>
+
+    
 </head>
-<body>
-    <div id="1d78c9163a284e65b577d80e0efb9346" class="chart-container" style="width:900px; height:500px; "></div>
+<body >
+    <div id="b2f9b13796e348fea4814236e6b8e585" class="chart-container" style="width:900px; height:500px; "></div>
     <script>
-        var chart_1d78c9163a284e65b577d80e0efb9346 = echarts.init(
-            document.getElementById('1d78c9163a284e65b577d80e0efb9346'), null, {renderer: 'canvas'});
-
-        // 马卡龙色系配色
-        var macaronColors = ['#FFB7C5', '#A2D7D8', '#FFDEB4', '#D4A5A5', '#B5C7E5'];
-
-        var option_1d78c9163a284e65b577d80e0efb9346 = {
-            "color": macaronColors,
+        var chart_b2f9b13796e348fea4814236e6b8e585 = echarts.init(
+            document.getElementById('b2f9b13796e348fea4814236e6b8e585'), 'light', {renderer: 'canvas'});
+        var option_b2f9b13796e348fea4814236e6b8e585 = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "aria": {
+        "enabled": false
+    },
+    "series": [
+        {
+            "type": "bar",
+            "name": "\u70b9\u8d5e\u6570",
+            "legendHoverLink": true,
+            "data": [
+                50,
+                36,
+                33,
+                22,
+                19,
+                11,
+                11,
+                11,
+                11,
+                10
+            ],
+            "realtimeSort": false,
+            "showBackground": false,
+            "stackStrategy": "samesign",
+            "cursor": "pointer",
+            "barMinHeight": 0,
+            "barCategoryGap": "20%",
+            "barGap": "30%",
+            "large": false,
+            "largeThreshold": 400,
+            "seriesLayoutBy": "column",
+            "datasetIndex": 0,
+            "clip": true,
+            "zlevel": 0,
+            "z": 2,
+            "label": {
+                "show": false,
+                "margin": 8,
+                "valueAnimation": false
+            }
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "\u70b9\u8d5e\u6570"
+            ],
+            "selected": {},
+            "show": true,
+            "padding": 5,
+            "itemGap": 10,
+            "itemWidth": 25,
+            "itemHeight": 14,
+            "backgroundColor": "transparent",
+            "borderColor": "#ccc",
+            "borderRadius": 0,
+            "pageButtonItemGap": 5,
+            "pageButtonPosition": "end",
+            "pageFormatter": "{current}/{total}",
+            "pageIconColor": "#2f4554",
+            "pageIconInactiveColor": "#aaa",
+            "pageIconSize": 15,
+            "animationDurationUpdate": 800,
+            "selector": false,
+            "selectorPosition": "auto",
+            "selectorItemGap": 7,
+            "selectorButtonGap": 10
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "enterable": false,
+        "confine": false,
+        "appendToBody": false,
+        "transitionDuration": 0.4,
+        "textStyle": {
+            "fontSize": 14
+        },
+        "borderWidth": 0,
+        "padding": 5,
+        "order": "seriesAsc"
+    },
+    "xAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "gridIndex": 0,
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": true,
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
             "animation": true,
             "animationThreshold": 2000,
             "animationDuration": 1000,
@@ -24,251 +140,80 @@
             "animationDurationUpdate": 300,
             "animationEasingUpdate": "cubicOut",
             "animationDelayUpdate": 0,
-            "aria": {
-                "enabled": false
-            },
-            "series": [
-                {
-                    "type": "bar",
-                    "name": "点赞数",
-                    "legendHoverLink": true,
-                    "data": [
-                        10,
-                        10,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        3,
-                        3,
-                        3,
-                        3,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "itemStyle": {
-                        "color": macaronColors[0]
-                    },
-                    "realtimeSort": false,
-                    "showBackground": false,
-                    "stackStrategy": "samesign",
-                    "cursor": "pointer",
-                    "barMinHeight": 0,
-                    "barCategoryGap": "20%",
-                    "barGap": "30%",
-                    "large": false,
-                    "largeThreshold": 400,
-                    "seriesLayoutBy": "column",
-                    "datasetIndex": 0,
-                    "clip": true,
-                    "zlevel": 0,
-                    "z": 2,
-                    "label": {
-                        "show": false,
-                        "margin": 8,
-                        "valueAnimation": false
-                    }
-                }
-            ],
-            "legend": [
-                {
-                    "data": [
-                        "点赞数"
-                    ],
-                    "selected": {},
-                    "show": true,
-                    "padding": 5,
-                    "itemGap": 10,
-                    "itemWidth": 25,
-                    "itemHeight": 14,
-                    "backgroundColor": "transparent",
-                    "borderColor": "#ccc",
-                    "borderRadius": 0,
-                    "pageButtonItemGap": 5,
-                    "pageButtonPosition": "end",
-                    "pageFormatter": "{current}/{total}",
-                    "pageIconColor": "#2f4554",
-                    "pageIconInactiveColor": "#aaa",
-                    "pageIconSize": 15,
-                    "animationDurationUpdate": 800,
-                    "selector": false,
-                    "selectorPosition": "auto",
-                    "selectorItemGap": 7,
-                    "selectorButtonGap": 10
-                }
-            ],
-            "tooltip": {
-                "show": true,
-                "trigger": "item",
-                "triggerOn": "mousemove|click",
-                "axisPointer": {
-                    "type": "line"
-                },
-                "showContent": true,
-                "alwaysShowContent": false,
-                "showDelay": 0,
-                "hideDelay": 100,
-                "enterable": false,
-                "confine": false,
-                "appendToBody": false,
-                "transitionDuration": 0.4,
-                "textStyle": {
-                    "fontSize": 14
-                },
-                "borderWidth": 0,
-                "padding": 5,
-                "order": "seriesAsc"
-            },
-            "xAxis": [
-                {
-                    "show": true,
-                    "scale": false,
-                    "nameLocation": "end",
-                    "nameGap": 15,
-                    "gridIndex": 0,
-                    "inverse": false,
-                    "offset": 0,
-                    "splitNumber": 5,
-                    "minInterval": 0,
-                    "splitLine": {
-                        "show": true,
-                        "lineStyle": {
-                            "show": true,
-                            "width": 1,
-                            "opacity": 1,
-                            "curveness": 0,
-                            "type": "solid",
-                            "color": "#eee"
-                        }
-                    },
-                    "animation": true,
-                    "animationThreshold": 2000,
-                    "animationDuration": 1000,
-                    "animationEasing": "cubicOut",
-                    "animationDelay": 0,
-                    "animationDurationUpdate": 300,
-                    "animationEasingUpdate": "cubicOut",
-                    "animationDelayUpdate": 0,
-                    "data": [
-                        "朔的人生到处是观众，带入一下我真的会崩溃，哪哪都是认识我的陌生人！像我一个这样爱挖鼻💛的小姑娘，要是火了分分钟被人拍到抓耳挠腮的动作然后尬方",
-                        "爱是漫长的旅途　梦有快乐　梦有痛苦\n悲欢离合人间路　一路上缝缝补补\n不愿让你看见我的伤处　是曾经无悔的风雨无阻\n完成够不够多　做得够不够好　\n可以不在乎　不迷糊",
-                        "一路不语，一路竖大拇指止了[doge]",
-                        "师父如果要去黄山的话，坐高铁有两个站一个是黄山北站，一个黄山西站，建议北站下车，交通方便，车子也会更多「当地出租车有点贵有那种拼车大概30-40一人滴滴估计是难打到车的」。去黄山记得做好防晒，按照你的体能拐杖多余哈哈哈哈。徽菜味道不错的「建议你好好找店铺我这里就不推荐了，有的店铺味道一般菜不好[笑哭]」",
-                        "朔哥早上好啊，我是大家，期待你能来我们青城山转悠转悠，这是个放松心情的好地方呢。都江堰这边还有一个猫猫庙（赵公明庙），里面喂养了很多可爱的小猫崽，想着你应该也会喜欢上这里的[蹦蹦]",
-                        "三伏天了，师父不要乱跑，快点回来更新了[生气_金箍][生气_金箍][生气_金箍]",
-                        "最近看到师父为罗帅宇发声了，抠搜如我赶紧给师父充电[doge_金箍]。师父是公众人物，勇敢发声，不惧黑暗，头上仿佛有圣光啊[给心心]。我不在前线在后方，站在正义梯队，支持师父！！！[加油][加油][加油]",
-                        "师父这几天竖大拇指都要竖出腱鞘炎了吧[呲牙][doge_金箍][呲牙][吃瓜][吃瓜][吃瓜]",
-                        "朔子，给你看今天遇到的小松鼠，好呆萌哦[大笑][大笑]",
-                        "师父 像不像空空啊",
-                        "以后问赵朔是否更新就是，今天还回来吃饭么师父？不回来寄个明信片[doge_金箍]~",
-                        "师父，来泰山了吗，给你看泰山的日出",
-                        "乐于助人的好师父[doge_金箍]",
-                        "早上好，看我漂亮女儿！",
-                        "师父来成都三星堆博物馆看过没，你肯定会喜欢的。",
-                        "“师父，您笑起来真好看，像春天的花一样！”💐",
-                        "力大如牛的师父，山东欢迎你[大笑][doge_金箍][大笑]",
-                        "师父好！",
-                        "师父，有时间去吊瓶血红蛋白吧，回血效果很好，亲测有效（促进营养吸收，提高身体免疫力，身体细胞感觉供血充足了，电量满满，眼里有活可以去做，再也不是心有馀而力不足，感觉强的可怕）。因为看你黑眼圈好重呀还发紫，双眼一层迷雾，肯定是带着脑子睡觉没睡好，嘴唇又发白得和贫血一样。现在食补和睡觉效果甚微的，身体熬不起。保重身体呀，别晕了，大夏天已经开始了",
-                        "赵朔你是要爬五岳吗？俗话说五岳归来不看山，确实值得一去，目前我只爬过两次泰山，十八盘爬断腿啊，但看了日出很震撼。如果到了河南嵩山，可以嵩山少林寺多待一天，据说那里的斋饭不错呢[呲牙]",
-                        "师父周末会在哪啊，会不会来北京啊[辣眼睛][委屈]全世界都在偶遇，我这个ip有希望吗[大哭]",
-                        "这个嘎子哭了湖，看了好几天了[笑哭]",
-                        "[吃瓜][吃瓜][吃瓜]",
-                        "师父，又收到了远方的明信片哦，希望你好吃好喝好睡心情好。",
-                        "抖音看到，看看咱家师父多好！",
-                        "朔哥，要不来云南爬爬苍山，环环洱海！刚好也避避暑！(✧◡✧)",
-                        "今日有最低满月，15:44记得看呐[OK]下一次就是2043年啦",
-                        "师父，爬山，，，是很好的赋能方式呢，可以逼出体内的东西，有机会去去南方[保佑][保佑][保佑]",
-                        "这么久还没更新，看来赵朔是在故作轻松。之前养悟空的时候太用心了，悟空走了，心就缺了一块，需要很长时间才能愈合。",
-                        "师父你好，这是我的画舫厕所搭子"
-                    ]
-                }
-            ],
-            "yAxis": [
-                {
-                    "show": true,
-                    "scale": false,
-                    "nameLocation": "end",
-                    "nameGap": 15,
-                    "gridIndex": 0,
-                    "inverse": false,
-                    "offset": 0,
-                    "splitNumber": 5,
-                    "minInterval": 0,
-                    "splitLine": {
-                        "show": true,
-                        "lineStyle": {
-                            "show": true,
-                            "width": 1,
-                            "opacity": 1,
-                            "curveness": 0,
-                            "type": "solid",
-                            "color": "#eee"
-                        }
-                    },
-                    "animation": true,
-                    "animationThreshold": 2000,
-                    "animationDuration": 1000,
-                    "animationEasing": "cubicOut",
-                    "animationDelay": 0,
-                    "animationDurationUpdate": 300,
-                    "animationEasingUpdate": "cubicOut",
-                    "animationDelayUpdate": 0
-                }
-            ],
-            "title": [
-                {
-                    "show": true,
-                    "text": "点赞数最高的评论 Top 30",
-                    "target": "blank",
-                    "subtext": "从MongoDB读取数据并去重",
-                    "subtarget": "blank",
-                    "padding": 5,
-                    "itemGap": 10,
-                    "textAlign": "auto",
-                    "textVerticalAlign": "auto",
-                    "textStyle": {
-                        "color": "#FF8FAB"
-                    },
-                    "subtextStyle": {
-                        "color": "#A2D7D8"
-                    },
-                    "triggerEvent": false
-                }
-            ],
-            "dataZoom": [
-                {
-                    "show": true,
-                    "type": "slider",
-                    "showDetail": true,
-                    "showDataShadow": true,
-                    "realtime": true,
-                    "start": 20,
-                    "end": 80,
-                    "orient": "horizontal",
-                    "zoomLock": false,
-                    "filterMode": "filter"
-                }
+            "data": [
+                "\u5237\u5230\u4e00\u6bb5\u8bc4\u8bba\u97e6\u4e1c\u5955\u5403\u996d\u88ab\u56f4\u89c2\u7684\u89c6\u9891\u3002\u4eba\u6c11\u65e5\u62a5\u8bc4\u8bba\u8bf4\uff1a\u4efb\u4f55\u7684\u597d\u5947\u548c\u63a8\u5d07\u90fd\u4e0d\u8be5\u964d\u683c\u4e3a\u65e0\u5e95\u7ebf\u7684\u516b\u5366\uff0c\u6367\u6740\u5f0f\u7684\u795e\u8bdd\u3002\n\u6211\u89c9\u5f97\u8fd9\u6bb5\u8bdd\u4e5f\u9002\u5408\u4efb\u4f55\u88ab\u63a8\u5d07\u7684\u4eba\uff0c\u8b6c\u5982\u8d75\u6714\u3002\u6211\u4eec\u65e2\u7136\u63a8\u5d07\u4ed6\uff0c\u6b23\u8d4f\u4ed6\uff0c\u5c31\u5e94\u8be5\u8fd8\u4ed6\u4e00\u4efd\u5b89\u9759\u548c\u81ea\u7531\uff0c\u5982\u679c\u4ed6\u9009\u62e9\u7ee7\u7eed\u9a91\u884c\uff0c\u5c31\u7ed9\u4ed6\u4e00\u4e2a\u81ea\u7531\u9a91\u884c\u7684\u73af\u5883\u5427\uff01\u4e0d\u8981\u518d\u53bb\u56f4\u8ffd\u5835\u622a\u4e86\u3002\n\u5f53\u7136\uff0c\u8d75\u7855\u7684\u7c89\u4e1d\u90fd\u662f\u9ad8\u7d20\u8d28\u7684\uff0c\u6211\u76f8\u4fe1\u4e0d\u4f1a\u53bb\u56f4\u8ffd\u5835\u622a\u8d75\u6714\u7684\u3002\u559c\u6b22\u4ed6\uff0c\u6b23\u8d4f\u4ed6\u5c31\u5c0a\u91cd\u4ed6\u5427\uff01",
+                "\u5e08\u7236\u4f60\u6709\u65f6\u5019\u4f1a\u8bef\u89e6\u5417\uff1f\u6211\u6296\u97f3\u88ab\u4f60\u62c9\u9ed1\u4e86\uff0c\u4f46\u662f\u6211\u5b9e\u5728\u60f3\u4e0d\u8d77\u6765\u6211\u8bf4\u8fc7\u4ec0\u4e48\u4e0d\u597d\u7684\u8bdd\uff0c\u6211\u6ca1\u6709\u53d1\u8fc7\u4f60\u7684\u64e6\u8fb9\u4e5f\u6ca1\u6709\u53d1\u8fc7\u60f3\u5ac1\u7ed9\u4f60\uff0c\u6211\u5c31\u662f\u628a\u4f60\u5f53\u6211\u7684\u699c\u6837\uff0c\u6211\u552f\u4e00\u7ed9\u4f60\u7684\u79c1\u4fe1\u662f\u81ed\u54aa\u53bb\u4e16\u7684\u65f6\u5019\u7ed9\u4f60\u53d1\u7684\u5411\u524d\u770b[\u5927\u54ed][\u5927\u54ed]\u6211\u771f\u7684\u4e0d\u77e5\u9053\u4e3a\u4ec0\u4e48\uff0c\u7136\u540e\u6211\u5728\u4f60\u7684\u5176\u4ed6\u76f8\u5173\u89c6\u9891\u95ee\u5927\u5bb6\u80fd\u4e0d\u80fd\u770b\u6211\u4ee5\u4e3a\u662f\u4f60\u8d26\u53f7\u51fa\u95ee\u9898\u4e86\uff0c\u5927\u5bb6\u90fd\u8bf4\u6211\u662f\u4e0d\u662f\u8ddf\u4f60\u8868\u767d\u4e86\uff0c\u7136\u540e\u8fd9\u4e2a\u56de\u590d\u90fd\u6709\u4e00\u5343\u591a\u4e2a\u8d5e\uff0c\u5f88\u591a\u4eba\u731c\u6d4b\u6211\u751a\u81f3\u8bf4\u6211\u5934\u50cf\u7684\u95ee\u9898\uff0c\u6211\u8bf4\u6211\u6ca1\u6709\u4f46\u662f\u4e00\u4e2a\u4eba\u90fd\u4e0d\u7ed9\u6211\u70b9\u8d5e\uff0c\u5e08\u7236\u6211\u597d\u59d4\u5c48[\u5927\u54ed][\u5927\u54ed]\u6211\u4ece\u53bb\u5e74\u5341\u4e00\u6708\u4efd\u5f00\u59cb\u770b\u4f60\uff0c\u6211\u771f\u7684\u597d\u59d4\u5c48[\u5927\u54ed][\u5927\u54ed][\u5927\u54ed][\u5927\u54ed]",
+                "\u8d75\u6714\uff0c\u8dd1\u5230\u798f\u6cfd\u660c\u6f64\u90a3\u513f\u770b\u5230\u4f60\u7684\u6700\u65b0\u6d88\u606f\uff0c\u4ed6\u8bf4\u5230\u96be\u4ee5\u5272\u820d\u7684\u5fc3\u7ed3\uff0c\u6211\u4eec\u90fd\u660e\u767d\u3002\u609f\u7a7a\u662f\u6211\u4eec\u96be\u4ee5\u5272\u820d\u7684\uff0c\u4f60\u4e5f\u662f\u6211\u4eec\u96be\u4ee5\u5272\u820d\u7684\uff0c\u6240\u4ee5\u4f60\u8981\u597d\u597d\u7684\uff0c\u65e0\u8bba\u4ec0\u4e48\u65f6\u5019\u6211\u4eec\u90fd\u652f\u6301\u4f60\u3002\u6211\u4e0d\u662f\u4ec0\u4e48\u996d\u5708\u4e5f\u4e0d\u8ffd\u661f\uff0c\u4e94\u5341\u591a\u5c81\u4e86\uff0c\u53ea\u662f\u60f3\u4e00\u4e2a\u90a3\u4e48\u90a3\u4e48\u597d\u7684\u4eba\u53d7\u5230\u4e16\u754c\u7684\u5584\u5f85\u3002\u4e0d\u8bf4\u4e86\u5145\u7535\u53bb\u4e86\u3002",
+                "\u8d75\u6714\u65e9\uff0c\u6628\u5929\u5927\u5bb6\u6536\u5230\u4e86\u597d\u591a\u65c5\u884c\u9752\u86d9\u6714\u5bc4\u56de\u6765\u7684\u660e\u4fe1\u7247\uff0c\u751a\u662f\u6b23\u559c\uff01\u518d\u6b21\u611f\u6168\uff0c\u8d75\u6714\u8d8a\u6765\u8d8a\u50cf\u609f\u7a7a\u4e86[doge_\u91d1\u7b8d]",
+                "\u6714\u54e5\uff01\u5728\u6dc4\u535a\u5927\u54e5\u7684\u6296\u97f3\u91cc\uff0c\u542c\u4e86\u4f60\u7684\u8fd1\u51b5\u3002\u5f53\u524d\u6700\u91cd\u8981\u7684\u4e8b\u662f\u7167\u987e\u597d\u81ea\u5df1\uff0c\u6525\u4f4f\u9769\u547d\u7684\u672c\u94b1\uff0c\u5403\u7684\u9971\u9971\u957f\u7684\u58ee\u58ee\u7684\u3002\u5927\u5bb6\u90fd\u77e5\u9053\u4f60\u5fc3\u91cc\u7684\u5fc3\u7ed3\uff0c\u5e0c\u671b\u6714\u54e5\u80fd\u5728\u4e09\u5c71\u4e94\u5cb3\u95f4\u6cbb\u6108\u81ea\u5df1\uff0c\u6253\u5f00\u5fc3\u7ed3\uff0c\u5927\u5bb6\u90fd\u5728\u966a\u7740\u4f60\u3002\u5fc3\u75bc\u4f60\u53d7\u5f97\u59d4\u5c48\uff0c\u6bcf\u6b21\u4e00\u6709\u8fd9\u6837\u7684\u611f\u89c9\uff0c\u5c31\u6765\u8bc4\u8bba\u533a\u5b89\u6170\u51e0\u53e5\uff0c\u597d\u50cf\u5728\u8ddf\u4e00\u4e2a\u8ba4\u8bc6\u591a\u5e74\u7684\u597d\u670b\u53cb\u8bf4\u8bdd\u4e00\u6837\uff0c\u6709\u79cd\u83ab\u540d\u7684\u4eb2\u5207\u611f\u3002",
+                "\u5c0f\u8d75\u5e08\u7236\uff0c\u6700\u8fd1\u5728\u770b\u957f\u5b89\u7684\u8354\u679d\uff0c\u8111\u6d77\u91cc\u5374\u4e00\u76f4\u662f\u957f\u5b89\u7684\u4f60\u3002\u5ffd\u7136\u60f3\u548c\u4f60\u8bf4\uff0c\u6ca1\u4eba\u7ed9\u4f60\u4e0b\u8fbe\u9001\u8354\u679d\u7684\u4efb\u52a1\uff0c\u4f60\u7684\u9a91\u884c\u672c\u5c31\u662f\u4f60\u81ea\u5df1\u7684\u65c5\u6e38\uff0c\u60f3\u4ec0\u4e48\u65f6\u5019\u51fa\u53d1\u4ec0\u4e48\u65f6\u5019\u7ec8\u7ed3\uff0c\u8bf7\u7531\u5fc3\u800c\u53d1\uff0c\u4e0d\u7528\u7ed9\u81ea\u5df1\u538b\u529b\uff0c\u6362\u4e00\u79cd\u65b9\u5f0f\u65c5\u6e38\u4e5f\u884c\uff0c\u4e0d\u62cd\u89c6\u9891\u4e5f\u884c\uff0c\u4e0d\u8981\u6709\u4efb\u4f55\u8d1f\u62c5\u3002\u5bf9\u4e86\uff0c\u51fa\u53bb\u6e9c\u8fbe\u4e4b\u540e\uff0c\u80fd\u5426\u548c\u5927\u5bb6\u5206\u4eab\u70b9\u4f60\u89c1\u8fc7\u7684\u98ce\u666f\u7684\u7167\u7247\u5462\uff1f[\u62e5\u62b1][\u62b1\u62f3][\u4fdd\u4f51]",
+                "\u6628\u5929\u4e8c\u5237\u5b8c\u6bd5\u4e86[\u9f13\u638c]\u4f60\u4e0d\u5728\u7684\u65e5\u5b50\u6211\u4eec\u90fd\u6709\u5728\u8ba4\u771f\u8003\u53e4\uff01\n\u672c\u6765\u8bf4\u770b\u5b8c\u4e86\u8fd9\u6bb5\u65f6\u95f4\u6b47\u6b47\n\u7ed3\u679c\u4e00\u65e9\u4e0a\u6d51\u8eab\u523a\u6320\u4e94\u810a\u516d\u517d\n\u6700\u540e\u8fd8\u662f\u8001\u8001\u5b9e\u5b9e\u70b9\u5f00\u4e86\u6ca3\u5cea\u53e3[\u6342\u8138]\n\u9000\u4e00\u4e07\u6b65\u8bb2\uff0c\u5c31\u7b97\u4f60\u51b3\u5b9a\u4e0d\u66f4\u65b0\u4e86\n\u4f60\u53ea\u8981\u81ea\u5df1\u5f00\u5fc3\uff0c\u4f60\u4e50\u610f\uff0c\u75db\u5feb\uff0c\u8fd9\u5c31\u597d\u4e86[OK]",
+                "\u6714\uff0c\u5237\u5230\u8fd9\u4e2a\u89c6\u9891\u4e86\uff0c\u597d\u7fa1\u6155\u80fd\u9047\u5230\u4f60\u7684\u6240\u6709\u4eba\u2026[\u60ca\u559c]",
+                "\u5e08\u7236\u590f\u5929\u8bf7\u7ee7\u7eed\u5e26\u6211\u4eec\u5403\u897f\u74dc[\u5927\u7b11]",
+                "\u5e08\u7236Gogogo \uff0c\u53c8\u53bb\u54ea\u513f\u4e86\u54c7[doge_\u91d1\u7b8d]"
             ]
-        };
-        chart_1d78c9163a284e65b577d80e0efb9346.setOption(option_1d78c9163a284e65b577d80e0efb9346);
+        }
+    ],
+    "yAxis": [
+        {
+            "show": true,
+            "scale": false,
+            "nameLocation": "end",
+            "nameGap": 15,
+            "gridIndex": 0,
+            "inverse": false,
+            "offset": 0,
+            "splitNumber": 5,
+            "minInterval": 0,
+            "splitLine": {
+                "show": true,
+                "lineStyle": {
+                    "show": true,
+                    "width": 1,
+                    "opacity": 1,
+                    "curveness": 0,
+                    "type": "solid"
+                }
+            },
+            "animation": true,
+            "animationThreshold": 2000,
+            "animationDuration": 1000,
+            "animationEasing": "cubicOut",
+            "animationDelay": 0,
+            "animationDurationUpdate": 300,
+            "animationEasingUpdate": "cubicOut",
+            "animationDelayUpdate": 0
+        }
+    ],
+    "title": [
+        {
+            "show": true,
+            "text": "\u70b9\u8d5e\u6570\u6700\u9ad8\u7684\u8bc4\u8bba Top 10",
+            "target": "blank",
+            "subtarget": "blank",
+            "padding": 5,
+            "itemGap": 10,
+            "textAlign": "auto",
+            "textVerticalAlign": "auto",
+            "triggerEvent": false
+        }
+    ],
+    "dataZoom": [
+        {
+            "show": true,
+            "type": "slider",
+            "showDetail": true,
+            "showDataShadow": true,
+            "realtime": true,
+            "start": 20,
+            "end": 80,
+            "orient": "horizontal",
+            "zoomLock": false,
+            "filterMode": "filter"
+        }
+    ]
+};
+        chart_b2f9b13796e348fea4814236e6b8e585.setOption(option_b2f9b13796e348fea4814236e6b8e585);
     </script>
 </body>
 </html>
