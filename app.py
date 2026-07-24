@@ -95,7 +95,8 @@ def chart_page(page):
     filename = page + ".html"
 
     # 读取图表 HTML
-    chart_path = os.path.join(app.template_folder, filename)
+    # 读取图表 HTML
+    chart_path = os.path.join(app.root_path, app.template_folder, filename)
     chart_html = ""
     if os.path.exists(chart_path):
         with open(chart_path, 'r', encoding='utf-8') as f:
@@ -105,7 +106,11 @@ def chart_page(page):
         if '<head>' in raw and '</head>' in raw:
             head = raw.split('<head>')[1].split('</head>')[0]
             import re
-            head_scripts = '\n'.join(re.findall(r'<script[^>]*>.*?</script>', head, re.DOTALL))
+            # 匹配所有 script 标签（含外链和内联）
+            head_scripts = '\n'.join(
+                re.findall(r'<script[^>]*>.*?</script>', head, re.DOTALL) +
+                re.findall(r'<script[^>]*/>', head)
+            )
         body = raw
         if '<body>' in body:
             body = body.split('<body>')[1]
