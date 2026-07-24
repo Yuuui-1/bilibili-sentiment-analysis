@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B站可视化 - {{ title }}</title>
+    <style>
+        :root { --pink: #FB7299; --pink-dark: #E05A7B; --bg: #FFF9FA; --shadow: 0 4px 8px rgba(251,114,153,0.2); }
+        body { font-family: 'Microsoft YaHei', sans-serif; margin: 0; padding: 0; background: var(--bg); color: #333; }
+        header {
+            background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+            color: #fff; padding: .8rem 2rem; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow);
+        }
+        .header-wrap { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .header-wrap h1 { font-size: 1.1rem; margin: 0; }
+        .nav-btns { display: flex; gap: 5px; flex-wrap: wrap; }
+        .nav-btns a {
+            background: rgba(255,255,255,.18); color: #fff; padding: 6px 14px;
+            border-radius: 16px; font-size: .78rem; text-decoration: none; transition: all .2s; font-family: inherit;
+        }
+        .nav-btns a:hover, .nav-btns a.active { background: var(--pink-dark); font-weight: 700; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; display: flex; flex-direction: column; gap: 16px; }
+        .chart-box { background: #fff; border-radius: 14px; padding: 8px; box-shadow: var(--shadow); overflow: hidden; }
+        .insight-box {
+            background: linear-gradient(135deg, #fff5f7, #fff); border-radius: 14px; padding: 20px;
+            box-shadow: var(--shadow); border-left: 4px solid var(--pink);
+        }
+        .insight-box h2 { color: var(--pink-dark); font-size: 1.1rem; margin: 0 0 8px; }
+        .insight-box p { font-size: .88rem; color: #555; line-height: 1.8; margin: 0; }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-wrap">
+        <h1>{{ title }}</h1>
+        <div class="nav-btns">
+            <a href="/">首页</a>
+            <a href="/top_comments_chart" class="{{ 'active' if active_page=='top_comments_chart' }}">点赞</a>
+            <a href="/top_comments_chart2" class="{{ 'active' if active_page=='top_comments_chart2' }}">回复</a>
+            <a href="/user_level_line_chart" class="{{ 'active' if active_page=='user_level_line_chart' }}">等级</a>
+            <a href="/wordcloud" class="{{ 'active' if active_page=='wordcloud' }}">词云</a>
+            <a href="/wordcloudid" class="{{ 'active' if active_page=='wordcloudid' }}">用户名云</a>
+            <a href="/gender_pie_chart" class="{{ 'active' if active_page=='gender_pie_chart' }}">性别</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="chart-box">{{ chart_html | safe if chart_html else '<p style="padding:30px;text-align:center;color:#999;">请先运行分析脚本生成图表</p>' }}</div>
+    <div class="insight-box">
+        <h2>数据分析</h2>
+        <p>{{ insight }}</p>
+    </div>
+</div>
+</body>
+</html>

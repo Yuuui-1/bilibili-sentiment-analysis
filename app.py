@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template
 from pymongo import MongoClient
 from config import MONGODB_URL
 import os
@@ -6,160 +6,136 @@ import os
 app = Flask(__name__)
 
 
-def get_collection():
+def get_db():
     client = MongoClient(MONGODB_URL)
     return client['bilibili']['new'], client
 
 
-def render_chart(chart_name, title):
-    """Read generated chart HTML and inject a back-to-home link."""
-    chart_path = os.path.join(app.template_folder, chart_name)
-    try:
-        with open(chart_path, 'r', encoding='utf-8') as f:
-            html = f.read()
-    except FileNotFoundError:
-        return "<p style='padding:40px;text-align:center'>请先运行分析脚本生成图表</p>", 404
-    # Inject a floating back button
-    back_btn = """
-    <div style="position:fixed;top:14px;left:14px;z-index:9999;">
-        <a href="/" style="
-            display:inline-block;background:#FB7299;color:#fff;padding:8px 18px;
-            border-radius:20px;text-decoration:none;font-size:14px;font-family:'Microsoft YaHei',sans-serif;
-            box-shadow:0 2px 8px rgba(251,114,153,.3);
-        ">← 返回首页</a>
-    </div>"""
-    html = html.replace('</body>', back_btn + '</body>')
-    return html
+def analyze(col):
+    """返回数据分析和 AI 洞察"""
+    total = col.count_documents({})
+    pos = col.count_documents({"sentiment_label": "正面"})
+    neu = col.count_documents({"sentiment_label": "中性"})
+    neg = col.count_documents({"sentiment_label": "负面"})
+    male = col.count_documents({"user_sex": "男"})
+    female = col.count_documents({"user_sex": "女"})
+
+    # 平均情感得分
+    pipeline = [{"$group": {"_id": None, "avg": {"$avg": "$sentiment_score"}}}]
+    r = list(col.aggregate(pipeline))
+    avg_score = round(r[0]['avg'] * 100, 1) if r else 50
+
+    # 正面评论平均点赞 vs 负面
+    pipeline = [
+        {"$match": {"like_count": {"$exists": True}}},
+        {"$group": {"_id": "$sentiment_label", "avg": {"$avg": "$like_count"}}}
+    ]
+    like_by_sentiment = {d['_id']: round(d['avg'], 1) for d in col.aggregate(pipeline)}
+
+    # 活跃用户
+    pipeline = [{"$group": {"_id": "$user_name", "cnt": {"$sum": 1}}}, {"$sort": {"cnt": -1}}, {"$limit": 3}]
+    top_users = [{"name": u['_id'], "count": u['cnt']} for u in col.aggregate(pipeline)]
+
+    # 最高赞正面评论
+    top_pos = col.find_one({"sentiment_label": "正面", "like_count": {"$exists": True}},
+                           {"comment": 1, "user_name": 1, "like_count": 1, "sentiment_score": 1},
+                           sort=[("like_count", -1)])
+
+    # AI 洞察文本
+    pos_pct = round(pos / total * 100, 1) if total else 0
+    pos_likes = like_by_sentiment.get('正面', 0)
+    neg_likes = like_by_sentiment.get('负面', 0)
+    users_str = '、'.join(u['name'] for u in top_users)
+
+    if pos_pct > 65:
+        summary = f"整体评论偏正面（{pos_pct}%），社区氛围良好。正面评论平均 {pos_likes} 赞，高于负面评论的 {neg_likes} 赞，说明观众更倾向通过点赞表达认可。"
+    elif pos_pct > 45:
+        summary = f"评论情感分布均衡（正面 {pos_pct}%）。活跃用户 {users_str} 参与度最高。正面评论互动（{pos_likes} 赞/条）高于负面（{neg_likes} 赞/条）。"
+    else:
+        summary = f"负面评论占比较高（{neg} 条），存在讨论分歧。活跃用户包括 {users_str}，建议关注他们的具体反馈内容。"
+
+    return {
+        "total": total, "pos": pos, "neu": neu, "neg": neg,
+        "male": male, "female": female, "avg_score": avg_score,
+        "pos_pct": pos_pct, "pos_likes": pos_likes, "neg_likes": neg_likes,
+        "top_users": top_users, "top_pos": top_pos, "summary": summary,
+    }
 
 
 @app.route('/')
 def index():
-    col, client = get_collection()
-    total = col.count_documents({})
+    col, client = get_db()
+    data = analyze(col)
 
-    # Sentiment stats
-    pos = col.count_documents({"sentiment_label": "正面"})
-    neu = col.count_documents({"sentiment_label": "中性"})
-    neg = col.count_documents({"sentiment_label": "负面"})
+    # 评论样本
+    pos_samples = list(col.find({"sentiment_label": "正面"}, {"comment": 1, "user_name": 1, "sentiment_score": 1})
+                       .sort("sentiment_score", -1).limit(4))
+    neg_samples = list(col.find({"sentiment_label": "负面"}, {"comment": 1, "user_name": 1, "sentiment_score": 1})
+                       .sort("sentiment_score", 1).limit(4))
+    client.close()
+    return render_template("zhuye.html", **data, pos_samples=pos_samples, neg_samples=neg_samples,
+                           active_page="home")
 
-    # Gender stats
-    male = col.count_documents({"user_sex": "男"})
-    female = col.count_documents({"user_sex": "女"})
 
-    # Sentiment-detail samples
-    positive_samples = list(col.find(
-        {"sentiment_label": "正面"},
-        {"comment": 1, "user_name": 1, "sentiment_score": 1, "_id": 0}
-    ).sort("sentiment_score", -1).limit(5))
+@app.route('/<page>')
+def chart_page(page):
+    """统一的图表页面——嵌入原始图表 + 数据分析"""
+    titles = {
+        "top_comments_chart": "点赞排行 Top 10",
+        "top_comments_chart2": "回复排行 Top 10",
+        "gender_pie_chart": "用户性别分布",
+        "user_level_line_chart": "用户等级分布",
+        "wordcloud": "评论词云",
+        "wordcloudid": "用户名词云",
+    }
+    if page not in titles:
+        return "Not found", 404
 
-    negative_samples = list(col.find(
-        {"sentiment_label": "负面"},
-        {"comment": 1, "user_name": 1, "sentiment_score": 1, "_id": 0}
-    ).sort("sentiment_score", 1).limit(5))
+    title = titles[page]
+    filename = page + ".html"
 
-    # Sentiment insights
-    avg_sentiment = 0
-    pipeline = [
-        {"$group": {"_id": None, "avg_score": {"$avg": "$sentiment_score"}}}
-    ]
-    result = list(col.aggregate(pipeline))
-    if result:
-        avg_sentiment = round(result[0]['avg_score'] * 100, 1)
+    # 读取图表 HTML
+    chart_path = os.path.join(app.template_folder, filename)
+    chart_html = ""
+    if os.path.exists(chart_path):
+        with open(chart_path, 'r', encoding='utf-8') as f:
+            raw = f.read()
+        # 提取 body 内容（pyecharts 输出含完整 HTML）
+        if '</head>' in raw:
+            raw = raw.split('</head>')[1] if '</head>' in raw else raw
+        if '<body>' in raw:
+            raw = raw.split('<body>')[1]
+        if '</body>' in raw:
+            raw = raw.split('</body>')[0]
+        chart_html = raw
 
-    pos_ratio = round(pos / total * 100, 1) if total > 0 else 0
-
-    # Top liked positive comment
-    top_positive = col.find_one(
-        {"sentiment_label": "正面"}, {"comment": 1, "user_name": 1, "like_count": 1, "_id": 0},
-        sort=[("like_count", -1)]
-    )
-
-    insights = get_chart_insights(col)
+    # 数据分析
+    col, client = get_db()
+    data = analyze(col)
     client.close()
 
-    return render_template("zhuye.html",
-                           total=total, pos=pos, neu=neu, neg=neg,
-                           male=male, female=female,
-                           avg_sentiment=avg_sentiment, pos_ratio=pos_ratio,
-                            top_positive=top_positive, insights=insights)
+    # 图表专属 AI 洞察
+    page_insights = generate_page_insight(col, page, data)
+
+    return render_template("chart_page.html", title=title, chart_html=chart_html,
+                           data=data, insight=page_insights, active_page=page)
 
 
-def get_chart_insights(col):
-    """Generate AI-powered or rule-based insights from chart data."""
-    total = col.count_documents({})
-    pos = col.count_documents({"sentiment_label": "正面"})
-    neg = col.count_documents({"sentiment_label": "负面"})
-
-    pipeline = [
-        {"$match": {"like_count": {"$exists": True}}},
-        {"$group": {"_id": "$sentiment_label", "avg_likes": {"$avg": "$like_count"}}}
-    ]
-    like_stats = {d['_id']: d for d in col.aggregate(pipeline)}
-
-    pipeline = [{"$group": {"_id": "$user_name", "count": {"$sum": 1}}}, {"$sort": {"count": -1}}, {"$limit": 3}]
-    top_users = list(col.aggregate(pipeline))
-
-    insights = {
-        "positive_pct": round(pos / total * 100, 1) if total else 0,
-        "neg_pct": round(neg / total * 100, 1) if total else 0,
-        "top_users": [{"name": u['_id'], "count": u['count']} for u in top_users[:3]],
-        "pos_avg_likes": round(like_stats.get('正面', {}).get('avg_likes', 0), 1),
-        "neg_avg_likes": round(like_stats.get('负面', {}).get('avg_likes', 0), 1),
-    }
-
-    if insights['positive_pct'] > 60:
-        insights["summary"] = f"整体评论偏正面（{insights['positive_pct']}%），社区氛围良好。正面评论平均 {insights['pos_avg_likes']} 赞，高于负面评论，说明观众更倾向于通过点赞表达认同。"
-    elif insights['neg_pct'] > 30:
-        insights["summary"] = f"负面评论占比 {insights['neg_pct']}%，存在一定讨论分歧。活跃用户包括 {'、'.join(u['name'] for u in insights['top_users'])}，建议关注他们的反馈。"
-    else:
-        insights["summary"] = f"评论情感分布均衡。活跃用户 {'、'.join(u['name'] for u in insights['top_users'])} 参与度最高。正面评论互动（{insights['pos_avg_likes']} 赞/条）高于负面（{insights['neg_avg_likes']} 赞/条）。"
-    return insights
-
-
-@app.route('/api/stats')
-def api_stats():
-    col, client = get_collection()
-    stats = {
-        "total": col.count_documents({}),
-        "positive": col.count_documents({"sentiment_label": "正面"}),
-        "neutral": col.count_documents({"sentiment_label": "中性"}),
-        "negative": col.count_documents({"sentiment_label": "负面"}),
-    }
-    client.close()
-    return jsonify(stats)
-
-
-@app.route('/gender_pie_chart')
-def gender_pie_chart():
-    return render_chart("gender_pie_chart.html", "性别分布")
-
-@app.route('/top_comments_chart')
-def top_comments_chart():
-    return render_chart("top_comments_chart.html", "点赞排行 Top 10")
-
-@app.route('/top_comments_chart2')
-def top_comments_chart2():
-    return render_chart("top_comments_chart2.html", "回复排行 Top 10")
-
-@app.route('/user_level_line_chart')
-def user_level_line_chart():
-    return render_chart("user_level_line_chart.html", "用户等级分布")
-
-@app.route('/wordcloud')
-def wordcloud():
-    return render_chart("wordcloud.html", "评论词云")
-
-@app.route('/wordcloudid')
-def wordcloudid():
-    return render_chart("wordcloudid.html", "用户名词云")
-
-@app.route('/level')
-def level():
-    return render_template("level.html")
-
-@app.route('/comments_show')
-def comments_show():
-    return render_template("comments_show.html")
+def generate_page_insight(col, page, data):
+    """为每个图表页生成专属分析文字"""
+    if page == "wordcloud":
+        return f"从 {data['total']} 条评论中提取的高频关键词。正面评论占 {data['pos_pct']}%，热词反映了观众对内容的关注焦点。"
+    if page == "wordcloudid":
+        return f"用户名中出现频率最高的词汇。活跃用户如 {data['top_users'][0]['name']} 等，构成了社区的核心互动群体。"
+    if page == "gender_pie_chart":
+        return f"参与评论的用户中男性 {data['male']} 人、女性 {data['female']} 人。性别分布反映了该视频内容的受众结构。"
+    if page == "user_level_line_chart":
+        return f"用户的B站等级分布。高等级用户通常意味着更活跃的社区参与度和更高的内容消费深度。"
+    if page == "top_comments_chart":
+        return f"点赞最高的 {10} 条评论。这些评论代表了观众最认同的观点，整体情感偏正面（{data['pos_pct']}%）。正面评论平均 {data['pos_likes']} 赞，高于负面评论的 {data['neg_likes']} 赞。"
+    if page == "top_comments_chart2":
+        return f"回复数最高的 {10} 条评论。高回复数意味着引发了较多的讨论和互动，这些评论往往是话题的引爆点。"
+    return ""
 
 
 if __name__ == '__main__':

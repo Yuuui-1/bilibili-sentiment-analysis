@@ -5,62 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B站可视化分析平台</title>
     <style>
-        :root {
-            --pink: #FB7299; --pink-light: #FF9DB5; --pink-dark: #E05A7B;
-            --blue: #23ADE5; --bg: #FFF9FA; --shadow: 0 4px 8px rgba(251,114,153,0.2);
-        }
+        :root { --pink: #FB7299; --pink-dark: #E05A7B; --bg: #FFF9FA; --shadow: 0 4px 8px rgba(251,114,153,0.2); }
         body { font-family: 'Microsoft YaHei', sans-serif; margin: 0; padding: 0; background: var(--bg); color: #333; }
         header {
             background: linear-gradient(135deg, var(--pink), var(--pink-dark));
-            color: #fff; padding: 1.2rem 2rem; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow);
+            color: #fff; padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow);
         }
-        .header-wrap { max-width: 1200px; margin: 0 auto; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: .6rem; }
-        .logo { display: flex; align-items: center; gap: 14px; }
-        .logo img { height: 38px; border-radius: 6px; }
-        h1 { font-size: 1.4rem; margin: 0; }
-
-        .nav-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+        .header-wrap { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo img { height: 34px; border-radius: 6px; }
+        h1 { font-size: 1.3rem; margin: 0; }
+        .nav-btns { display: flex; gap: 5px; flex-wrap: wrap; }
         .nav-btns a {
-            background: rgba(255,255,255,.18); color: #fff; border: none; padding: 8px 18px;
-            border-radius: 20px; font-size: .85rem; text-decoration: none; transition: all .25s; font-family: inherit;
+            background: rgba(255,255,255,.18); color: #fff; border: none; padding: 7px 16px;
+            border-radius: 18px; font-size: .82rem; text-decoration: none; transition: all .2s; font-family: inherit;
         }
-        .nav-btns a:hover { background: var(--pink-dark); transform: translateY(-1px); }
-        .nav-btns a.active { background: var(--pink-dark); font-weight: 700; }
+        .nav-btns a:hover, .nav-btns a.active { background: var(--pink-dark); font-weight: 700; }
 
-        main { max-width: 1160px; margin: 28px auto; padding: 0 20px; display: grid; grid-template-columns: 260px 1fr; gap: 24px; }
-        .sidebar { align-self: start; position: sticky; top: 130px; }
-        .sidebar-card {
-            background: #fff; border-radius: 14px; padding: 22px; box-shadow: var(--shadow); margin-bottom: 16px;
+        main { max-width: 1160px; margin: 24px auto; padding: 0 20px; display: grid; grid-template-columns: 260px 1fr; gap: 22px; }
+        .sidebar { align-self: start; position: sticky; top: 120px; display: flex; flex-direction: column; gap: 14px; }
+        .card { background: #fff; border-radius: 14px; padding: 20px; box-shadow: var(--shadow); }
+        .profile-img { width: 64px; height: 64px; border-radius: 50%; border: 3px solid var(--pink); margin-bottom: 10px; }
+        .info-row { padding: 6px 0; border-bottom: 1px solid #fef2f4; font-size: .85rem; }
+        .info-row:last-child { border: none; }
+        .stat-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: .82rem; }
+        .stat-row span:last-child { font-weight: 700; }
+
+        .content { display: flex; flex-direction: column; gap: 18px; }
+        .insight-card {
+            background: linear-gradient(135deg, #fff5f7, #fff); border-radius: 14px; padding: 22px;
+            box-shadow: var(--shadow); border-left: 4px solid var(--pink);
         }
-        .sidebar-card .profile-img { width: 72px; height: 72px; border-radius: 50%; border: 3px solid var(--pink); margin-bottom: 14px; }
-        .sidebar-card .info-item { padding: 8px 0; border-bottom: 1px solid #fef2f4; font-size: .9rem; }
-        .sidebar-card .info-item:last-child { border: none; }
-        .sidebar-card .sentiment-stat { display: flex; justify-content: space-between; padding: 6px 0; font-size: .85rem; }
-        .sidebar-card .sentiment-stat span:last-child { font-weight: 700; }
+        .insight-card h2 { color: var(--pink-dark); font-size: 1.2rem; margin: 0 0 8px; }
+        .insight-card p { font-size: .9rem; color: #555; line-height: 1.8; margin: 0; }
 
-        .content { background: #fff; border-radius: 14px; padding: 28px; box-shadow: var(--shadow); }
-        .content h2 { color: var(--pink-dark); margin-top: 0; font-size: 1.3rem; }
-        .content .intro { font-size: .95rem; color: #666; line-height: 1.8; margin-bottom: 20px; }
-        .content .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 14px; margin-top: 20px; }
-        .feature-card { background: var(--bg); border-radius: 12px; padding: 18px; }
-        .feature-card h3 { font-size: .95rem; color: var(--pink-dark); margin: 0 0 6px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 14px; }
+        .feature-card { background: #fff; border-radius: 14px; padding: 20px; box-shadow: var(--shadow); }
+        .feature-card h3 { color: var(--pink-dark); font-size: .95rem; margin: 0 0 6px; }
         .feature-card p { font-size: .8rem; color: #999; margin: 0; }
+
+        .comment-card { background: #fff; border-radius: 14px; padding: 20px; box-shadow: var(--shadow); }
+        .comment-card h3 { color: var(--pink-dark); font-size: 1rem; margin: 0 0 12px; }
+        .comment-item { padding: 10px 0; border-bottom: 1px solid #fef2f4; }
+        .comment-item:last-child { border-bottom: none; }
+        .comment-text { font-size: .85rem; line-height: 1.7; }
+        .comment-meta { font-size: .75rem; color: #aaa; margin-top: 4px; }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: .7rem; font-weight: 700; }
+        .tag-p { background: #e8f5e9; color: #2e7d32; }
+        .tag-n { background: #ffebee; color: #c62828; }
 
         @media (max-width: 768px) {
             main { grid-template-columns: 1fr; }
-            .sidebar { position: static; }
+            .sidebar { position: static; flex-direction: row; flex-wrap: wrap; }
+            .sidebar .card { flex: 1; min-width: 160px; }
         }
     </style>
 </head>
 <body>
 <header>
     <div class="header-wrap">
-        <div class="top-bar">
-            <div class="logo">
-                <img src="{{ url_for('static',filename='bilibili.jpg')}}" alt="B站">
-                <h1>B站可视化分析平台</h1>
-            </div>
+        <div class="logo">
+            <img src="{{ url_for('static',filename='bilibili.jpg')}}" alt="B站">
+            <h1>B站可视化分析</h1>
         </div>
         <div class="nav-btns">
             <a href="/" class="active">首页</a>
@@ -68,7 +74,7 @@
             <a href="/top_comments_chart2">回复排行</a>
             <a href="/user_level_line_chart">用户等级</a>
             <a href="/wordcloud">评论词云</a>
-            <a href="/wordcloudid">用户名词云</a>
+            <a href="/wordcloudid">用户名云</a>
             <a href="/gender_pie_chart">性别分布</a>
         </div>
     </div>
@@ -76,58 +82,60 @@
 
 <main>
     <aside class="sidebar">
-        <div class="sidebar-card">
+        <div class="card">
             <img class="profile-img" src="{{ url_for('static',filename='touxiang.jpg')}}" alt="头像">
-            <div class="info-item"><strong>昵称</strong><br>Yzx</div>
-            <div class="info-item"><strong>等级</strong><br>Lv5</div>
-            <div class="info-item"><strong>UID</strong><br>20250611</div>
+            <div class="info-row"><strong>昵称</strong><br>Yzx</div>
+            <div class="info-row"><strong>等级</strong><br>Lv5</div>
+            <div class="info-row"><strong>分析评论数</strong><br>{{ total }} 条</div>
         </div>
-        <div class="sidebar-card">
-            <h3 style="color:var(--pink-dark);font-size:1rem;margin:0 0 12px;">情感分析</h3>
-            <div class="sentiment-stat"><span>整体情感得分</span><span style="color:{{ 'var(--pink-dark)' if avg_sentiment > 50 else '#c62828' }};">{{ avg_sentiment }}%</span></div>
-            <div class="sentiment-stat"><span>正面比例</span><span style="color:#2e7d32;">{{ pos_ratio }}%</span></div>
-            <div class="sentiment-stat"><span style="color:#2e7d32;">正面评论</span><span style="color:#2e7d32;">{{ pos }}</span></div>
-            <div class="sentiment-stat"><span style="color:#f57c00;">中性评论</span><span style="color:#f57c00;">{{ neu }}</span></div>
-            <div class="sentiment-stat"><span style="color:#c62828;">负面评论</span><span style="color:#c62828;">{{ neg }}</span></div>
-            <div class="sentiment-stat"><span>男性用户</span><span>{{ male }}</span></div>
-            <div class="sentiment-stat"><span>女性用户</span><span>{{ female }}</span></div>
+        <div class="card">
+            <h3 style="color:var(--pink-dark);font-size:.9rem;margin:0 0 10px;">数据概览</h3>
+            <div class="stat-row"><span>总评论</span><span>{{ total }}</span></div>
+            <div class="stat-row"><span style="color:#2e7d32;">正面</span><span style="color:#2e7d32;">{{ pos }}</span></div>
+            <div class="stat-row"><span style="color:#f57c00;">中性</span><span style="color:#f57c00;">{{ neu }}</span></div>
+            <div class="stat-row"><span style="color:#c62828;">负面</span><span style="color:#c62828;">{{ neg }}</span></div>
+            <div class="stat-row"><span>情感得分</span><span>{{ avg_score }}%</span></div>
+            <div class="stat-row"><span>男/女</span><span>{{ male }}/{{ female }}</span></div>
         </div>
-        {% if top_positive %}
-        <div class="sidebar-card">
-            <h3 style="color:var(--pink-dark);font-size:.9rem;margin:0 0 8px;">👍 最高赞正面评论</h3>
-            <p style="font-size:.8rem;color:#666;line-height:1.6;">{{ top_positive.comment[:60] }}{% if top_positive.comment|length > 60 %}...{% endif %}</p>
-            <p style="font-size:.75rem;color:#999;">@{{ top_positive.user_name }} · {{ top_positive.get('like_count',0) }} 赞</p>
-        </div>
-        {% endif %}
     </aside>
 
-    <section class="content">
-        <h2>平台介绍</h2>
-        <p class="intro">
-            已分析 <strong>{{ total }}</strong> 条评论，整体情感得分 <strong style="color:{{ 'var(--pink-dark)' if avg_sentiment > 50 else '#c62828' }};">{{ avg_sentiment }}%</strong>，
-            正面评论占比 <strong>{{ pos_ratio }}%</strong>。</p>
+    <div class="content">
+        <div class="insight-card">
+            <h2>AI 数据洞察</h2>
+            <p>{{ summary }}</p>
+        </div>
 
-        {% if insights %}
-        <div style="background:linear-gradient(135deg,#fef2f4,#fff5f5);border-radius:12px;padding:20px;margin-bottom:20px;border-left:4px solid var(--pink);">
-            <h3 style="color:var(--pink-dark);font-size:1rem;margin:0 0 8px;">AI 数据洞察</h3>
-            <p style="font-size:.9rem;color:#555;line-height:1.8;margin:0;">{{ insights.summary }}</p>
+        <div class="features">
+            <div class="feature-card"><h3>评论词云</h3><p>高频关键词可视化</p></div>
+            <div class="feature-card"><h3>情感分析</h3><p>SnowNLP 中文情感打分</p></div>
+            <div class="feature-card"><h3>用户画像</h3><p>性别·等级·互动数据</p></div>
+            <div class="feature-card"><h3>热评排行</h3><p>点赞·回复 Top 10</p></div>
+        </div>
+
+        {% if pos_samples %}
+        <div class="comment-card">
+            <h3>👍 正面热评</h3>
+            {% for c in pos_samples %}
+            <div class="comment-item">
+                <div class="comment-text">{{ c.comment }}</div>
+                <div class="comment-meta"><span class="tag tag-p">正面 {{ (c.sentiment_score * 100)|int }}%</span> @{{ c.user_name }}</div>
+            </div>
+            {% endfor %}
         </div>
         {% endif %}
-        <div class="features">
-            <div class="feature-card">
-                <h3>评论词云</h3><p>高频关键词可视化</p>
+
+        {% if neg_samples %}
+        <div class="comment-card">
+            <h3>👎 负面评论</h3>
+            {% for c in neg_samples %}
+            <div class="comment-item">
+                <div class="comment-text">{{ c.comment }}</div>
+                <div class="comment-meta"><span class="tag tag-n">负面 {{ (c.sentiment_score * 100)|int }}%</span> @{{ c.user_name }}</div>
             </div>
-            <div class="feature-card">
-                <h3>情感分析</h3><p>SnowNLP 中文情感打分</p>
-            </div>
-            <div class="feature-card">
-                <h3>用户画像</h3><p>性别·等级·互动</p>
-            </div>
-            <div class="feature-card">
-                <h3>热评排行</h3><p>点赞·回复 Top10</p>
-            </div>
+            {% endfor %}
         </div>
-    </section>
+        {% endif %}
+    </div>
 </main>
 </body>
 </html>
