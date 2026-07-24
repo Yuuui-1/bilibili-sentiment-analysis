@@ -83,22 +83,29 @@
             <div class="info-item"><strong>UID</strong><br>20250611</div>
         </div>
         <div class="sidebar-card">
-            <h3 style="color:var(--pink-dark);font-size:1rem;margin:0 0 12px;">数据分析概览</h3>
-            <div class="sentiment-stat"><span>评论总数</span><span>{{ total }}</span></div>
-            <div class="sentiment-stat"><span style="color:#2e7d32;">正面</span><span style="color:#2e7d32;">{{ pos }}</span></div>
-            <div class="sentiment-stat"><span style="color:#f57c00;">中性</span><span style="color:#f57c00;">{{ neu }}</span></div>
-            <div class="sentiment-stat"><span style="color:#c62828;">负面</span><span style="color:#c62828;">{{ neg }}</span></div>
-            <div class="sentiment-stat"><span>男性</span><span>{{ male }}</span></div>
-            <div class="sentiment-stat"><span>女性</span><span>{{ female }}</span></div>
+            <h3 style="color:var(--pink-dark);font-size:1rem;margin:0 0 12px;">情感分析</h3>
+            <div class="sentiment-stat"><span>整体情感得分</span><span style="color:{{ 'var(--pink-dark)' if avg_sentiment > 50 else '#c62828' }};">{{ avg_sentiment }}%</span></div>
+            <div class="sentiment-stat"><span>正面比例</span><span style="color:#2e7d32;">{{ pos_ratio }}%</span></div>
+            <div class="sentiment-stat"><span style="color:#2e7d32;">正面评论</span><span style="color:#2e7d32;">{{ pos }}</span></div>
+            <div class="sentiment-stat"><span style="color:#f57c00;">中性评论</span><span style="color:#f57c00;">{{ neu }}</span></div>
+            <div class="sentiment-stat"><span style="color:#c62828;">负面评论</span><span style="color:#c62828;">{{ neg }}</span></div>
+            <div class="sentiment-stat"><span>男性用户</span><span>{{ male }}</span></div>
+            <div class="sentiment-stat"><span>女性用户</span><span>{{ female }}</span></div>
         </div>
+        {% if top_positive %}
+        <div class="sidebar-card">
+            <h3 style="color:var(--pink-dark);font-size:.9rem;margin:0 0 8px;">👍 最高赞正面评论</h3>
+            <p style="font-size:.8rem;color:#666;line-height:1.6;">{{ top_positive.comment[:60] }}{% if top_positive.comment|length > 60 %}...{% endif %}</p>
+            <p style="font-size:.75rem;color:#999;">@{{ top_positive.user_name }} · {{ top_positive.get('like_count',0) }} 赞</p>
+        </div>
+        {% endif %}
     </aside>
 
     <section class="content">
         <h2>平台介绍</h2>
         <p class="intro">
-            欢迎使用B站可视化分析平台！本平台可对任意B站视频的用户数据进行深度分析。<br>
-            目前已分析 <strong>{{ total }}</strong> 条评论，正面评论占比 <strong>{{ (pos/total*100)|int }}%</strong>。
-        </p>
+            已分析 <strong>{{ total }}</strong> 条评论，整体情感得分 <strong style="color:{{ 'var(--pink-dark)' if avg_sentiment > 50 else '#c62828' }};">{{ avg_sentiment }}%</strong>，
+            正面评论占比 <strong>{{ pos_ratio }}%</strong>。</p>
         <div class="features">
             <div class="feature-card">
                 <h3>评论词云</h3><p>高频关键词可视化</p>
