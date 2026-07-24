@@ -122,7 +122,20 @@ class BCommentParse(object):
 
 
 if __name__ == '__main__':
-    video_url = 'https://www.bilibili.com/video/BV19Q7UzXE1v'  # 替换为目标视频URL
+    import sys
+    import os
+    if len(sys.argv) > 1:
+        video_url = sys.argv[1]
+    else:
+        video_url = input("请输入 B站视频链接: ").strip()
+    
+    cookie = os.getenv('BILIBILI_COOKIE', '')
+    if not cookie:
+        print("⚠️ 未设置 BILIBILI_COOKIE 环境变量，可能无法获取完整数据")
+        cookie = input("请输入你的 B站 Cookie (回车跳过): ").strip()
+        if cookie:
+            os.environ['BILIBILI_COOKIE'] = cookie
+    
     if video_url.startswith('https://www.bilibili.com/video/'):
         print("=== B站评论爬虫启动 ===")
         b = BCommentParse(video_url)
