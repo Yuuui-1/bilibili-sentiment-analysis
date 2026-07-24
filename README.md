@@ -1,4 +1,4 @@
-# B站舆情分析系统
+# B站评论智能分析平台
 
 基于 Flask + MongoDB + DeepSeek AI 的 Bilibili 评论采集、情感分析与可视化平台。
 
