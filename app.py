@@ -37,7 +37,7 @@ def index():
 
     client.close()
 
-    return render_template("dashboard.html",
+    return render_template("zhuye.html",
                            total=total, pos=pos, neu=neu, neg=neg,
                            male=male, female=female,
                            positive_samples=positive_samples,
